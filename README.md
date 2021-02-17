@@ -1,4 +1,4 @@
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4279086.svg)](https://doi.org/10.5281/zenodo.4279086)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4279085.svg)](https://doi.org/10.5281/zenodo.4279085)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?label=License&style=flat-square)](LICENSE)
 
 Time-dependent end-to-end model for post-process optimization of the DESHIMA spectrometer.
