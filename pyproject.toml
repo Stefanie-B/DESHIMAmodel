@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "tiempo_deshima"
-version = "0.1.14"
+version = "0.1.15"
 description = "time-dependent end-to-end model for post-process optimization"
 authors = ["Esmee Huijten"]
 maintainers = ["Stefanie-B <s.a.brackenhoff@student.tudelft.nl>"]
