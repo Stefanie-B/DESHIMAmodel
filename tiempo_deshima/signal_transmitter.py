@@ -10,6 +10,7 @@ from joblib import Parallel, delayed
 import numpy as np
 from pathlib import Path
 import galspec
+import gc
 
 from .DESHIMA.desim import minidesim as dsm
 from .Atmosphere import use_aris
@@ -28,13 +29,18 @@ def unwrap_processInput_vec(st1, i, aris_instance, use_desim_instance, time_step
     Wrapper function for processInput, in order to avoid bugs with joblib.parallel
     """
     if st1.vecmode: st1.EL = st1.EL_vec[i]
-    return st1.processInput(i=i, aris_instance=aris_instance, use_desim_instance=use_desim_instance, time_step=time_step, count=count)
+    output = st1.processInput(i=i, aris_instance=aris_instance, use_desim_instance=use_desim_instance, time_step=time_step, count=count)
+    gc.collect()
+    return output
 
 def unwrap_processInput(st1, i, aris_instance, use_desim_instance, time_step, count):
     """
     Wrapper function for processInput, in order to avoid bugs with joblib.parallel
     """
-    return st1.processInput(i=i, aris_instance=aris_instance, use_desim_instance=use_desim_instance, time_step=time_step, count=count)
+    output = st1.processInput(i=i, aris_instance=aris_instance, use_desim_instance=use_desim_instance, time_step=time_step, count=count)
+    del st1
+    gc.collect()
+    return output
 
 class signal_transmitter(object):
     "Class that transmits the signal through all components of the model"
@@ -117,6 +123,8 @@ class signal_transmitter(object):
         noise_signal = pn.photon_noise(self.P_bin_centres, self.bin_centres, delta_F, self.sampling_rate)
         signal_matrix = noise_signal.calcTimeSignalBoosted(atm = 1)
         power_matrix_column = np.sum(signal_matrix, axis=2)
+        del signal_matrix, noise_signal
+        gc.collect()
         return power_matrix_column
 
     def transmit_signal_DESIM_multf_atm(self):
@@ -176,7 +184,7 @@ class signal_transmitter(object):
             for l in range(0, self.n_batches, 1):
                 step_round = math.floor(self.num_samples/self.n_batches)
                 inputs = range(l * step_round, (l+1) * step_round)
-                power_matrix = Parallel(n_jobs=self.n_jobs,backend = 'threading')(delayed(unwrap_processInput_vec)(self, i, aris_instance, use_desim_instance, time_vector[i], i) for i in inputs)
+                power_matrix = Parallel(n_jobs=self.n_jobs)(delayed(unwrap_processInput_vec)(self, i, aris_instance, use_desim_instance, time_vector[i], i) for i in inputs)
                 power_matrix_res = np.zeros([power_matrix[0].shape[0], self.num_filters, step_round])
                 for j in range(step_round):
                     power_matrix_res[:, :, j] = power_matrix[j]
@@ -185,7 +193,7 @@ class signal_transmitter(object):
                 if self.save_T:
                     T_sky_matrix = np.zeros(power_matrix_res.shape)
                     for k in range(power_matrix[0].shape[0]):
-                        for i in range(step_round):
+                        for i in range(step_round-int(self.sampling_rate*self.separation/self.windspeed)):
                             self.EL = self.EL_vec[inputs[i]]
                             T_sky_matrix[k, :, i] = self.convert_P_to_Tsky(power_matrix_res[k,:,i], self.filters)
                     path_T = self.save_path.joinpath(self.save_name_data + "_T_" + str(l))
@@ -196,11 +204,12 @@ class signal_transmitter(object):
                     path_P = self.save_path.joinpath(self.save_name_data + "_P_" + str(l))
                     np.save(path_P, np.array(power_matrix_res))
                     del power_matrix, power_matrix_res
+                    gc.collect()
         else:
             for l in range(0, self.n_batches, 1):
                 step_round = math.floor(self.num_samples/self.n_batches)
                 inputs = range(l * step_round, (l+1) * step_round)
-                power_matrix = Parallel(n_jobs=self.n_jobs,backend = 'threading')(delayed(unwrap_processInput)(self, i, aris_instance, use_desim_instance, time_vector[i], i) for i in inputs)
+                power_matrix = Parallel(n_jobs=self.n_jobs)(delayed(unwrap_processInput)(self, i, aris_instance, use_desim_instance, time_vector[i], i) for i in inputs)
                 power_matrix_res = np.zeros([power_matrix[0].shape[0], self.num_filters, step_round])
                 for j in range(step_round):
                     power_matrix_res[:, :, j] = power_matrix[j]
@@ -218,6 +227,8 @@ class signal_transmitter(object):
                     path_P = self.save_path.joinpath(self.save_name_data + "_P_" + str(l))
                     np.save(path_P, np.array(power_matrix_res))
                 del power_matrix, power_matrix_res
+                gc.collect()
+                
         return [time_vector, self.filters]
 
     def convert_P_to_Tsky(self, power_matrix, filters):
