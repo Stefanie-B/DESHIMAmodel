@@ -19,7 +19,9 @@ The pwv values are taken in the following order:
 1. Left position
 2. Center position with galaxy
 3. Right position
-4. Center position without galaxy
+4. Top position
+5. Bottom position
+6. Center position without galaxy
 The pwv values in position 2 and position 4 are equal, but otherwise the sky temperatures are computed separately.
 
 ## Using the model
