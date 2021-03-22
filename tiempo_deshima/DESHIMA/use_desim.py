@@ -74,8 +74,7 @@ class use_desim(object):
         psd_gal = signal_instance.psd_gal
         EL = signal_instance.EL
         D1 = signal_instance.D1
-        #pwv_values_no_gal = np.array([pwv_value[0], pwv_value[2], pwv_value[3], pwv_value[4]]) TB
-        pwv_values_no_gal = np.array([pwv_value[0], pwv_value[2], pwv_value[3]])
+        pwv_values_no_gal = np.array([pwv_value[0], pwv_value[2], pwv_value[3], pwv_value[4], pwv_value[5]])
         pwv_value_gal = np.array([pwv_value[0], pwv_value[1]])
         F_filters = signal_instance.filters
         margin = 10e9
@@ -117,9 +116,8 @@ class use_desim(object):
         DESHIMA_transmitted_gal = dsm.spectrometer_sensitivity(**Desim_input) # takes a lot of time
         psd_co_no_gal = DESHIMA_transmitted_no_gal['psd_co'] #vector because of F
         psd_co_gal = DESHIMA_transmitted_gal['psd_co']
-        #psd_co = np.zeros([num_bins_Lor, 5]) TB
-        psd_co = np.zeros([num_bins_Lor, 4])
-        for i in range(0, 3): #TB range(0,4)
+        psd_co = np.zeros([num_bins_Lor, 6])
+        for i in range(0, 5):
             if i == 0:
                 psd_co[:, 0] = psd_co_no_gal[:, 0]
             else:
@@ -159,9 +157,9 @@ class use_desim(object):
         for el in data_names:
             data.append(np.array(D2goal[el]))
         return data
-    
+
     def calcT_psd_P(self, eta_atm_df, F_highres, eta_atm_func_zenith, F_filter, EL_vector, num_filters, pwv = 0.1, R = 500, num_bins = 1500, D1 = 0):
-        
+
         length_EL_vector = len(EL_vector)
         margin = 10e9
         # F_bins = np.logspace(np.log10(F_filter[0]-margin), np.log10(F_filter[-1] + margin), num_bins) #to calculate the Lorentzian
@@ -212,7 +210,7 @@ class use_desim(object):
             eta_chip_matrix = np.tile(eta_chip.reshape(len(eta_chip), 1), (1, length_EL_vector))
             psd_KID[i, :, :] =  dsm.rad_trans(psd_co, psd_jn_chip, eta_chip_matrix)
 
-        
+
         delta_F = F_bins[1] - F_bins[0]
         numerators = np.zeros([EL_vector.shape[0], num_filters])
         denominators = np.zeros(num_filters)

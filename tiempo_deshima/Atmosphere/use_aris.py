@@ -116,8 +116,7 @@ class use_ARIS(object):
         """
         pwv_matrix = self.filtered_pwv_matrix
         positions = self.calc_coordinates(time, windspeed)
-        #pwv = np.array([pwv_matrix[positions[0]], pwv_matrix[positions[1]], pwv_matrix[positions[2]], pwv_matrix[positions[3]], pwv_matrix[positions[4]]]) TB
-        pwv = np.array([pwv_matrix[positions[0]], pwv_matrix[positions[1]], pwv_matrix[positions[2]], pwv_matrix[positions[3]]])
+        pwv = np.array([pwv_matrix[positions[0]], pwv_matrix[positions[1]], pwv_matrix[positions[2]], pwv_matrix[positions[3]], pwv_matrix[positions[4]], pwv_matrix[positions[5]]])
         return pwv
 
     def calc_coordinates(self, time, windspeed):
@@ -137,10 +136,8 @@ class use_ARIS(object):
         pos_1 = x_index + grid_dif, y_index
         pos_2 = x_index + grid_dif, y_index
         pos_3 = x_index + grid_dif, y_index
-        pos_4 = x_index + grid_dif, y_index
-        #pos_4 = x_index + grid_dif, y_index + grid_dif #TB
-        #pos_5 = x_index + grid_dif, y_index - grid_dif
-        #positions = [pos_1, pos_2, pos_3, pos_4, pos_5]
-        positions = [pos_1, pos_2, pos_3, pos_4]
+        pos_4 = x_index + grid_dif, y_index + grid_dif
+        pos_5 = x_index + grid_dif, y_index - grid_dif
+        pos_6 = x_index + grid_dif, y_index
+        positions = [pos_1, pos_2, pos_3, pos_4, pos_5, pos_6]
         return positions
-
