@@ -319,6 +319,7 @@ def eta_atm_func(F, pwv, EL=60., eta_atm_df = pd.Series([]), F_highres = pd.Seri
     Calculate eta_atm as a function of F by interpolation.
     If R~=0 then the function will average the atmospheric transmission
     within each spectrometer channel.
+    There is a for loop aroudn the calculation of eta_atm, because otherwise the interp2d function in eta_atm_func_zenith orders the input by size.
 
     Parameters
     ----------
@@ -356,7 +357,9 @@ def eta_atm_func(F, pwv, EL=60., eta_atm_df = pd.Series([]), F_highres = pd.Seri
     if type(eta_atm_func_zenith) != interp2d:
         eta_atm_func_zenith = eta_atm_interp(eta_atm_df)
     pwv = np.squeeze(pwv)
-    eta_atm = np.abs(eta_atm_func_zenith(pwv, F)) ** (1./np.sin(EL*np.pi/180.))
+    eta_atm = np.zeros((len(F), len(pwv)))
+    for i in range(len(pwv)):
+        eta_atm = np.abs(eta_atm_func_zenith(pwv[i], F)) ** (1./np.sin(EL*np.pi/180.))
     return np.squeeze(eta_atm)
 
 
