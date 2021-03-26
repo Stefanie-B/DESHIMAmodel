@@ -1,9 +1,9 @@
 [tool.poetry]
 name = "tiempo_deshima"
-version = "0.1.16"
+version = "0.1.17"
 description = "time-dependent end-to-end model for post-process optimization"
 authors = ["Esmee Huijten"]
-maintainers = ["Stefanie Brackenhoff <s.a.brackenhoff@student.tudelft.nl>", "Anne-Kee Doing <a.doing@student.tudelft.nl>"]
+maintainers = ["Stefanie Brackenhoff <s.a.brackenhoff@student.tudelft.nl>", "Anne-Kee Doing <AnneKeeDoing@gmail.com>"]
 license = "MIT"
 readme = "README.md"
 homepage = "https://github.com/deshima-dev/tiempo_deshima"

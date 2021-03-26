@@ -359,7 +359,7 @@ def eta_atm_func(F, pwv, EL=60., eta_atm_df = pd.Series([]), F_highres = pd.Seri
     pwv = np.squeeze(pwv)
     eta_atm = np.zeros((len(F), len(pwv)))
     for i in range(len(pwv)):
-        eta_atm = np.abs(eta_atm_func_zenith(pwv[i], F)) ** (1./np.sin(EL*np.pi/180.))
+        eta_atm[:,i] = np.abs(np.squeeze(eta_atm_func_zenith(pwv[i], F))) ** (1./np.sin(EL*np.pi/180.)) #squeeze removes additional dimension of size 1, such that only 2 indices are needed
     return np.squeeze(eta_atm)
 
 
