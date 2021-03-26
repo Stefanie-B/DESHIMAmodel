@@ -1,0 +1,19 @@
+tiempo\_deshima package
+=======================
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   tiempo_deshima.interface
+   tiempo_deshima.signal_transmitter
+
+Module contents
+---------------
+
+.. automodule:: tiempo_deshima
+   :members:
+   :undoc-members:
+   :show-inheritance:

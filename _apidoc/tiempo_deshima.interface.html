@@ -1,0 +1,304 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>tiempo_deshima.interface module &#8212; tiempo_deshima 0.1.0 documentation</title>
+    
+  <link rel="stylesheet" href="../_static/css/index.d431a4ee1c1efae0e38bdfebc22debff.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.30270b6e4c972e43c488.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="tiempo_deshima.signal_transmitter module" href="tiempo_deshima.signal_transmitter.html" />
+    <link rel="prev" title="tiempo_deshima package" href="tiempo_deshima.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main">
+<div class="container-xl">
+
+    
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+        
+        
+        <li class="nav-item ">
+            <a class="nav-link" href="../index.html">Home</a>
+        </li>
+        
+        <li class="nav-item active">
+            <a class="nav-link" href="tiempo_deshima.html">Package guide</a>
+        </li>
+        
+        
+      </ul>
+
+
+      
+
+      <ul class="navbar-nav">
+        
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/Stefanie-B/DESHIMAmodel/" target="_blank" rel="noopener">
+              <span><i class="fab fa-github-square"></i></span>
+            </a>
+          </li>
+        
+        
+      </ul>
+    </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+          <div class="col-12 col-md-3 bd-sidebar">
+
+<form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+
+
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+
+  <div class="bd-toc-item active">
+  
+
+  <ul class="nav bd-sidenav">
+      
+      
+      
+      
+        
+      
+      
+    </ul>
+
+</nav>
+          </div>
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+              
+
+<nav id="bd-toc-nav">
+    <ul class="nav section-nav flex-column">
+    
+    </ul>
+</nav>
+
+
+              
+          </div>
+          
+
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="module-tiempo_deshima.interface">
+<span id="tiempo-deshima-interface-module"></span><h1>tiempo_deshima.interface module<a class="headerlink" href="#module-tiempo_deshima.interface" title="Permalink to this headline">¶</a></h1>
+<p>This module allows users to execute funtioncs in signal_transmitter, while providing default values so not all values need to be set manually.</p>
+<dl class="py function">
+<dt id="tiempo_deshima.interface.calcMaxObsTime">
+<code class="sig-prename descclassname">tiempo_deshima.interface.</code><code class="sig-name descname">calcMaxObsTime</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dictionary</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tiempo_deshima/interface.html#calcMaxObsTime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiempo_deshima.interface.calcMaxObsTime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the maximum observing time, using the number of gridpoints in
+one atmosphere strip, the gridwidth, the number of atmosphere strips and the
+windspeed</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tiempo_deshima.interface.convert_folder">
+<code class="sig-prename descclassname">tiempo_deshima.interface.</code><code class="sig-name descname">convert_folder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">folder</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tiempo_deshima/interface.html#convert_folder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiempo_deshima.interface.convert_folder" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="tiempo_deshima.interface.get_dictionary">
+<code class="sig-prename descclassname">tiempo_deshima.interface.</code><code class="sig-name descname">get_dictionary</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input_dictionary</span></em>, <em class="sig-param"><span class="n">prefix_atm_data</span></em>, <em class="sig-param"><span class="n">sourcefolder</span></em>, <em class="sig-param"><span class="n">save_name_data</span></em>, <em class="sig-param"><span class="n">savefolder</span></em>, <em class="sig-param"><span class="n">save_P</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">save_T</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">n_jobs</span><span class="o">=</span><span class="default_value">30</span></em>, <em class="sig-param"><span class="n">n_batches</span><span class="o">=</span><span class="default_value">8</span></em>, <em class="sig-param"><span class="n">obs_time</span><span class="o">=</span><span class="default_value">2.0</span></em>, <em class="sig-param"><span class="n">grid</span><span class="o">=</span><span class="default_value">0.2</span></em>, <em class="sig-param"><span class="n">x_length_strip</span><span class="o">=</span><span class="default_value">65536.0</span></em>, <em class="sig-param"><span class="n">separation</span><span class="o">=</span><span class="default_value">1.1326</span></em>, <em class="sig-param"><span class="n">galaxy_on</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">luminosity</span><span class="o">=</span><span class="default_value">13.7</span></em>, <em class="sig-param"><span class="n">redshift</span><span class="o">=</span><span class="default_value">4.43</span></em>, <em class="sig-param"><span class="n">linewidth</span><span class="o">=</span><span class="default_value">600</span></em>, <em class="sig-param"><span class="n">EL</span><span class="o">=</span><span class="default_value">60</span></em>, <em class="sig-param"><span class="n">EL_vec</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_num_strips</span><span class="o">=</span><span class="default_value">32</span></em>, <em class="sig-param"><span class="n">pwv_0</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">F_min</span><span class="o">=</span><span class="default_value">220000000000.0</span></em>, <em class="sig-param"><span class="n">num_bins</span><span class="o">=</span><span class="default_value">1500</span></em>, <em class="sig-param"><span class="n">spec_res</span><span class="o">=</span><span class="default_value">500</span></em>, <em class="sig-param"><span class="n">f_spacing</span><span class="o">=</span><span class="default_value">500</span></em>, <em class="sig-param"><span class="n">num_filters</span><span class="o">=</span><span class="default_value">347</span></em>, <em class="sig-param"><span class="n">beam_radius</span><span class="o">=</span><span class="default_value">5.0</span></em>, <em class="sig-param"><span class="n">useDESIM</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">inclAtmosphere</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">windspeed</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">D1</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">dictionary_name</span><span class="o">=</span><span class="default_value">''</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tiempo_deshima/interface.html#get_dictionary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiempo_deshima.interface.get_dictionary" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_dictionary</strong> (<em>string</em>) – ‘deshima_1’, ‘deshima_2’, ‘manual’ or ‘path’. Determines where the input values of keywords F_min thru come from: either standard values for DESHIMA, manual entry from the keywords or from a txt file in the order of keywords obs_time thru D1.</p></li>
+<li><p><strong>prefix_atm_data</strong> (<em>string</em>) – The prefix of the output of ARIS that is being used by the TiEMPO</p></li>
+<li><p><strong>sourcefolder</strong> (<em>string</em>) – Folder where ARIS data used by the model is saved, relative to the current working directory. A parent folder can be specified by prefixing with ‘../’, ‘..', ‘./’ or ‘.'</p></li>
+<li><p><strong>save_name_data</strong> (<em>string</em>) – Prefix of the output of TiEMPO</p></li>
+<li><p><strong>savefolder</strong> (<em>string</em>) – Folder where the output of the model will be saved relative to the current working directory. A parent folder can be specified by prefixing with ‘../’, ‘..', ‘./’ or ‘.'</p></li>
+<li><p><strong>save_P</strong> (<em>bool</em>) – determines whether the power in Watts is saved as an output. Default is True</p></li>
+<li><p><strong>save_T</strong> (<em>bool</em>) – determines whether the sky temperature in Kelvins is saved as an output. Default is True.</p></li>
+<li><p><strong>n_jobs</strong> (<em>int</em>) – maximum number of concurrently running jobs (size of thread-pool). -1 means all CPUs are used.</p></li>
+<li><p><strong>n_batches</strong> (<em>int</em>) – number of batches the entire observation is divided up into. Default is 8.</p></li>
+<li><p><strong>obs_time</strong> (<em>float</em><em>, </em><em>optional</em>) – Length of the observation in seconds. The default is 2..</p></li>
+<li><p><strong>grid</strong> (<em>float</em><em>, </em><em>optional</em>) – The width of a grid square in the atmosphere map in meters. The default is .2.</p></li>
+<li><p><strong>x_length_strip</strong> (<em>int</em><em>, </em><em>optional</em>) – The length of one atmosphere strip in the x direction in number of gridpoints (NOT METERS). The default is 65536.</p></li>
+<li><p><strong>separation</strong> (<em>float</em><em>, </em><em>optional</em>) – Separation between two chop positions in m, assuming that the atmosphere is at 1km height. Default is 1.1326 (this corresponds to 116.8 arcsec).</p></li>
+<li><p><strong>galaxy_on</strong> (<em>bool</em><em>, </em><em>optional</em>) – Determines whether there is a galaxy in position 2. The default is True.</p></li>
+<li><p><strong>luminosity</strong> (<em>float</em><em>, </em><em>optional</em>) – Luminosity if the galaxy in log(L_fir [L_sol]). The default is 13.7.</p></li>
+<li><p><strong>redshift</strong> (<em>float</em><em>, </em><em>optional</em>) – The redshift of the galaxy. The default is 4.43.</p></li>
+<li><p><strong>linewidth</strong> (<em>float</em><em>, </em><em>optional</em>) – Width of the spectral lines in the galaxy spectrum in km/s. The default is 600.</p></li>
+<li><p><strong>EL</strong> (<em>float</em><em>, </em><em>optional</em>) – Elevation of the telescope in degrees. The default is 60.</p></li>
+<li><p><strong>EL_vec</strong> (<em>vector of floats</em><em>, </em><em>optional</em>) – If this parameter is set, it allows to specify the elevation of the telescope in degrees per timestep, for example in the case of tracking a target. Vector must have a length of 160Hz * obs_time.</p></li>
+<li><p><strong>max_num_strips</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of atmosphere strips that are saved in the ARIS output folder. The default is 32.</p></li>
+<li><p><strong>pwv_0</strong> (<em>float</em><em>, </em><em>optional</em>) – Baseline value of precipitable water vapor that is added to the d(pwv) from ARIS in mm. The default is 1.</p></li>
+<li><p><strong>F_min</strong> (<em>float</em><em>, </em><em>optional</em>) – Lowest center frequency of all the MKIDs. The default is 220e9.</p></li>
+<li><p><strong>num_bins</strong> (<em>int</em><em>, </em><em>optional</em>) – determines the amount of bins used in the simulation of the galaxy spectrum. The default is 1500.</p></li>
+<li><p><strong>spec_res</strong> (<em>float</em><em>, </em><em>optional</em>) – Spectral resolution. The default is 500.</p></li>
+<li><p><strong>f_spacing</strong> (<em>float</em><em>, </em><em>optional</em>) – spacing between center frequencies = F/dF (mean). The default is 500.</p></li>
+<li><p><strong>num_filters</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of filters in the filterbank. The default is 347.</p></li>
+<li><p><strong>beam_radius</strong> (<em>float</em><em>, </em><em>optional</em>) – Radius of the Gaussian beam in meters. The default is 5.</p></li>
+<li><p><strong>useDESIM</strong> (<em>int</em><em>, </em><em>optional</em>) – 1 or 0. Determines whether the simple atmospheric model is used (0) or the more sophisticated desim simulation (1). The default is 1.</p></li>
+<li><p><strong>inclAtmosphere</strong> (<em>int</em><em>, </em><em>optional</em>) – 1 or 0. Determines whether the atmosphere is included in the simulation. The default is 1 (yes).</p></li>
+<li><p><strong>windspeed</strong> (<em>float</em><em>, </em><em>optional</em>) – Sped of the wind in meters/second. The default is 10.</p></li>
+<li><p><strong>D1</strong> (<em>int</em><em>, </em><em>optional</em>) – 1 or 0. Determines whether DESHIMA 1.0 is simulated. The default is 0.</p></li>
+<li><p><strong>dictionary_name</strong> (<em>string</em><em>, </em><em>optional</em>) – name of a txt file in which the values of optional keywords are saved. prefix_atm_data, sourcefolder, save_name_data, savefolder, n_jobs, save_P, save_T and EL_vec must still be set outside the file. Only used when input_dictionary is set to ‘path’. The default is ‘’. Order of the entries in the txt file must be: F_min, num_bins, spec_res, f_spacing, num_filters, beam_radius, useDESIM, inclAtmosphere, D1, time, grid, x_length_strip, galaxy_on, luminosity, redshift, linewidth, EL, max_num_strips, pwv_0, windspeed, n_batches.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>dictionary</strong> – Dictionary with the above keywords.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tiempo_deshima.interface.new_filterbank">
+<code class="sig-prename descclassname">tiempo_deshima.interface.</code><code class="sig-name descname">new_filterbank</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dictionary</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tiempo_deshima/interface.html#new_filterbank"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiempo_deshima.interface.new_filterbank" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dictionary</strong> (<em>dict</em>) – Dictionary obtained from get_dictionary() with the same keywords as run_tiempo() executed after this function. Input_dictionary in that function must be set to ‘manual’ or ‘path’</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>None.</em></p></li>
+<li><p><em>Must be executed when the filter properties are changed.</em></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tiempo_deshima.interface.run_tiempo">
+<code class="sig-prename descclassname">tiempo_deshima.interface.</code><code class="sig-name descname">run_tiempo</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input_dictionary</span></em>, <em class="sig-param"><span class="n">prefix_atm_data</span></em>, <em class="sig-param"><span class="n">sourcefolder</span></em>, <em class="sig-param"><span class="n">save_name_data</span></em>, <em class="sig-param"><span class="n">savefolder</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">save_P</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">save_T</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">n_jobs</span><span class="o">=</span><span class="default_value">30</span></em>, <em class="sig-param"><span class="n">n_batches</span><span class="o">=</span><span class="default_value">8</span></em>, <em class="sig-param"><span class="n">obs_time</span><span class="o">=</span><span class="default_value">3600.0</span></em>, <em class="sig-param"><span class="n">grid</span><span class="o">=</span><span class="default_value">0.2</span></em>, <em class="sig-param"><span class="n">x_length_strip</span><span class="o">=</span><span class="default_value">65536.0</span></em>, <em class="sig-param"><span class="n">separation</span><span class="o">=</span><span class="default_value">1.1326</span></em>, <em class="sig-param"><span class="n">galaxy_on</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">luminosity</span><span class="o">=</span><span class="default_value">13.7</span></em>, <em class="sig-param"><span class="n">redshift</span><span class="o">=</span><span class="default_value">4.43</span></em>, <em class="sig-param"><span class="n">linewidth</span><span class="o">=</span><span class="default_value">600</span></em>, <em class="sig-param"><span class="n">EL</span><span class="o">=</span><span class="default_value">60</span></em>, <em class="sig-param"><span class="n">EL_vec</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_num_strips</span><span class="o">=</span><span class="default_value">32</span></em>, <em class="sig-param"><span class="n">pwv_0</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">F_min</span><span class="o">=</span><span class="default_value">220000000000.0</span></em>, <em class="sig-param"><span class="n">num_bins</span><span class="o">=</span><span class="default_value">1500</span></em>, <em class="sig-param"><span class="n">spec_res</span><span class="o">=</span><span class="default_value">500</span></em>, <em class="sig-param"><span class="n">f_spacing</span><span class="o">=</span><span class="default_value">500</span></em>, <em class="sig-param"><span class="n">num_filters</span><span class="o">=</span><span class="default_value">347</span></em>, <em class="sig-param"><span class="n">beam_radius</span><span class="o">=</span><span class="default_value">5.0</span></em>, <em class="sig-param"><span class="n">useDESIM</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">inclAtmosphere</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">windspeed</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">D1</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">dictionary_name</span><span class="o">=</span><span class="default_value">''</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tiempo_deshima/interface.html#run_tiempo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiempo_deshima.interface.run_tiempo" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_dictionary</strong> (<em>string</em>) – ‘deshima_1’, ‘deshima_2’, ‘manual’ or ‘path’. Determines where the input values of keywords F_min thru come from: either standard values for DESHIMA, manual entry from the keywords or from a txt file.</p></li>
+<li><p><strong>prefix_atm_data</strong> (<em>string</em>) – The prefix of the output of ARIS that is being used by the TiEMPO</p></li>
+<li><p><strong>sourcefolder</strong> (<em>string</em>) – Folder where ARIS data used by the model is saved, relative to the current working directory. A parent folder can be specified by prefixing with ‘../’, ‘..', ‘./’ or ‘.'</p></li>
+<li><p><strong>save_name_data</strong> (<em>string</em>) – Prefix of the output of TiEMPO</p></li>
+<li><p><strong>savefolder</strong> (<em>string</em>) – Folder where the output of the model will be saved relative to the current working directory. A parent folder can be specified by prefixing with ‘../’, ‘..', ‘./’ or ‘.'</p></li>
+<li><p><strong>save_P</strong> (<em>bool</em>) – determines whether the power in Watts is saved as an output. Default is True</p></li>
+<li><p><strong>save_T</strong> (<em>bool</em>) – determines whether the sky temperature in Kelvins is saved as an output. Default is True.</p></li>
+<li><p><strong>n_jobs</strong> (<em>int</em>) – maximum number of concurrently running jobs (size of thread-pool). -1 means all CPUs are used.</p></li>
+<li><p><strong>n_batches</strong> (<em>int</em>) – number of batches the entire observation is divided up into. Default is 8.</p></li>
+<li><p><strong>obs_time</strong> (<em>float</em><em>, </em><em>optional</em>) – Length of the observation in seconds. The default is 2.0.</p></li>
+<li><p><strong>grid</strong> (<em>float</em><em>, </em><em>optional</em>) – The width of a grid square in the atmosphere map in meters. The default is .2.</p></li>
+<li><p><strong>x_length_strip</strong> (<em>int</em><em>, </em><em>optional</em>) – The length of one atmosphere strip in the x direction in number of gridpoints (NOT METERS). The default is 65536.</p></li>
+<li><p><strong>separation</strong> (<em>float</em><em>, </em><em>optional</em>) – Separation between two chop positions in m, assuming that the atmosphere is at 1km height. Default is 1.1326 (this corresponds to 116.8 arcsec).</p></li>
+<li><p><strong>galaxy_on</strong> (<em>bool</em><em>, </em><em>optional</em>) – Determines whether there is a galaxy in position 2. T The default is True.</p></li>
+<li><p><strong>luminosity</strong> (<em>float</em><em>, </em><em>optional</em>) – Luminosity if the galaxy in log(L_fir [L_sol]). The default is 13.7.</p></li>
+<li><p><strong>redshift</strong> (<em>float</em><em>, </em><em>optional</em>) – The redshift of the galaxy. The default is 4.43.</p></li>
+<li><p><strong>linewidth</strong> (<em>float</em><em>, </em><em>optional</em>) – Width of the spectral lines in the galaxy spectrum in km/s. The default is 600.</p></li>
+<li><p><strong>EL</strong> (<em>float</em><em>, </em><em>optional</em>) – Elevation of the telescope in degrees. The default is 60.</p></li>
+<li><p><strong>EL_vec</strong> (<em>vector of floats</em><em>, </em><em>optional</em>) – If this parameter is set, it allows to specify the elevation of the telescope in degrees per timestep, for example in the case of tracking a target. Vector must have a length of 160Hz * obs_time.</p></li>
+<li><p><strong>max_num_strips</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of atmosphere strips that are saved in the ARIS output folder. The default is 32.</p></li>
+<li><p><strong>pwv_0</strong> (<em>float</em><em>, </em><em>optional</em>) – Baseline value of precipitable water vapor that is added to the d(pwv) from ARIS in mm. The default is 1.</p></li>
+<li><p><strong>F_min</strong> (<em>float</em><em>, </em><em>optional</em>) – Lowest center frequency of all the MKIDs. The default is 220e9.</p></li>
+<li><p><strong>num_bins</strong> (<em>int</em><em>, </em><em>optional</em>) – determines the amount of bins used in the simulation of the galaxy spectrum. The default is 1500.</p></li>
+<li><p><strong>spec_res</strong> (<em>float</em><em>, </em><em>optional</em>) – Spectral resolution. The default is 500.</p></li>
+<li><p><strong>f_spacing</strong> (<em>float</em><em>, </em><em>optional</em>) – spacing between center frequencies = F/dF (mean). The default is 500.</p></li>
+<li><p><strong>num_filters</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of filters in the filterbank. The default is 347.</p></li>
+<li><p><strong>beam_radius</strong> (<em>float</em><em>, </em><em>optional</em>) – Radius of the Gaussian beam in meters. The default is 5.</p></li>
+<li><p><strong>useDESIM</strong> (<em>int</em><em>, </em><em>optional</em>) – 1 or 0. Determines whether the simple atmospheric model is used (0) or the more sophisticated desim simulation (1). The default is 1.</p></li>
+<li><p><strong>inclAtmosphere</strong> (<em>int</em><em>, </em><em>optional</em>) – 1 or 0.Determines whether the simple atmospheric model is used (0) or the more sophisticated desim simulation (1). The default is 1 (yes).</p></li>
+<li><p><strong>windspeed</strong> (<em>float</em><em>, </em><em>optional</em>) – Sped of the wind in meters/second. The default is 10.</p></li>
+<li><p><strong>D1</strong> (<em>int</em><em>, </em><em>optional</em>) – 1 or 0. Determines whether DESHIMA 1.0 is simulated. The default is 0.</p></li>
+<li><p><strong>dictionary_name</strong> (<em>string</em><em>, </em><em>optional</em>) – name of a txt file in which the values of optional keywords are saved. prefix_atm_data, sourcefolder, save_name_data, savefolder, n_jobs, save_P, save_T and EL_vec must still be set outside the file. Only used when input_dictionary is set to ‘path’. The default is ‘’. Order of the entries in the txt file must be: F_min, num_bins, spec_res, f_spacing, num_filters, beam_radius, useDESIM, inclAtmosphere, D1, time, grid, x_length_strip, luminosity, redshift, linewidth, EL, max_num_strips, pwv_0, windspeed, n_batches.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>time_vector</strong> (<em>array of floats</em>) – Moments in time at which the signal is calculated.</p></li>
+<li><p><strong>center_freq</strong> (<em>array of floats</em>) – Center frequencies of the MKIDs</p></li>
+<li><p><strong>Saves ‘&lt;cwd&gt;/output_TiEMPO/&lt;save_name_data&gt;+P_X.npy’ OR ‘&lt;savefolder&gt;/&lt;save_name_data&gt;+P_X.npy’</strong> (<em>numpy array of floats</em>) – array of the power values of the signal in Watts. Dimensions are: [5 x #filters x #timesamples], as 5 pwv values are taken for each timesample</p></li>
+<li><p><strong>Saves ‘&lt;cwd&gt;/output_TiEMPO/&lt;save_name_data&gt;+T_X.npy’ OR ‘&lt;savefolder&gt;/&lt;save_name_data&gt;+T_X.npy’</strong> (<em>numpy array of floats</em>) – array of the power values of the signal converted to sky temperature in Kelvins. Dimensions are: [5 x #filters x #timesamples], as 5 pwv values are taken for each timesample</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+    <a class='left-prev' id="prev-link" href="tiempo_deshima.html" title="previous page">tiempo_deshima package</a>
+    <a class='right-next' id="next-link" href="tiempo_deshima.signal_transmitter.html" title="next page">tiempo_deshima.signal_transmitter module</a>
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.30270b6e4c972e43c488.js"></script>
+
+
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    <p>
+          &copy; Copyright 2018-2020 DESHIMA software team.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

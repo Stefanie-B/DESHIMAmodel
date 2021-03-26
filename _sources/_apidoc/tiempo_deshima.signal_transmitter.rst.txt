@@ -1,0 +1,7 @@
+tiempo\_deshima.signal\_transmitter module
+==========================================
+
+.. automodule:: tiempo_deshima.signal_transmitter
+   :members:
+   :undoc-members:
+   :show-inheritance:

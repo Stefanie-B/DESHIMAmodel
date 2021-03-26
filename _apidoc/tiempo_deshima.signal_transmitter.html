@@ -1,0 +1,270 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>tiempo_deshima.signal_transmitter module &#8212; tiempo_deshima 0.1.0 documentation</title>
+    
+  <link rel="stylesheet" href="../_static/css/index.d431a4ee1c1efae0e38bdfebc22debff.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.30270b6e4c972e43c488.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="tiempo_deshima.interface module" href="tiempo_deshima.interface.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main">
+<div class="container-xl">
+
+    
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+        
+        
+        <li class="nav-item ">
+            <a class="nav-link" href="../index.html">Home</a>
+        </li>
+        
+        <li class="nav-item active">
+            <a class="nav-link" href="tiempo_deshima.html">Package guide</a>
+        </li>
+        
+        
+      </ul>
+
+
+      
+
+      <ul class="navbar-nav">
+        
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/Stefanie-B/DESHIMAmodel/" target="_blank" rel="noopener">
+              <span><i class="fab fa-github-square"></i></span>
+            </a>
+          </li>
+        
+        
+      </ul>
+    </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+          <div class="col-12 col-md-3 bd-sidebar">
+
+<form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+
+
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+
+  <div class="bd-toc-item active">
+  
+
+  <ul class="nav bd-sidenav">
+      
+      
+      
+      
+        
+      
+      
+    </ul>
+
+</nav>
+          </div>
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+              
+
+<nav id="bd-toc-nav">
+    <ul class="nav section-nav flex-column">
+    
+    </ul>
+</nav>
+
+
+              
+          </div>
+          
+
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="module-tiempo_deshima.signal_transmitter">
+<span id="tiempo-deshima-signal-transmitter-module"></span><h1>tiempo_deshima.signal_transmitter module<a class="headerlink" href="#module-tiempo_deshima.signal_transmitter" title="Permalink to this headline">¶</a></h1>
+<p>DESHIMA Model signal_transmitter</p>
+<p>Transmits a signal through all components of the ASTE telescope,
+which corresponds to transmitting a signal through multiple objects in the model</p>
+<dl class="py class">
+<dt id="tiempo_deshima.signal_transmitter.signal_transmitter">
+<em class="property">class </em><code class="sig-prename descclassname">tiempo_deshima.signal_transmitter.</code><code class="sig-name descname">signal_transmitter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tiempo_deshima/signal_transmitter.html#signal_transmitter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiempo_deshima.signal_transmitter.signal_transmitter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class that transmits the signal through all components of the model</p>
+<dl class="py method">
+<dt id="tiempo_deshima.signal_transmitter.signal_transmitter.convert_P_to_Tsky">
+<code class="sig-name descname">convert_P_to_Tsky</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">power_matrix</span></em>, <em class="sig-param"><span class="n">filters</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tiempo_deshima/signal_transmitter.html#signal_transmitter.convert_P_to_Tsky"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiempo_deshima.signal_transmitter.signal_transmitter.convert_P_to_Tsky" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function converts an array with power values to an array with sky
+temperature values, using the saved interpolation function from the
+‘.Data/splines_Tb_sky/’ repository.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>T_sky_matrix</strong> – Values of the sky temperature that correspons to the values of the
+power that were passed to the function
+Unit: K</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="tiempo_deshima.signal_transmitter.signal_transmitter.processInput">
+<code class="sig-name descname">processInput</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">i</span></em>, <em class="sig-param"><span class="n">aris_instance</span></em>, <em class="sig-param"><span class="n">use_desim_instance</span></em>, <em class="sig-param"><span class="n">time_step</span></em>, <em class="sig-param"><span class="n">count</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tiempo_deshima/signal_transmitter.html#signal_transmitter.processInput"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiempo_deshima.signal_transmitter.signal_transmitter.processInput" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function gets the right values of the pwv and then transmits the signal
+through Desim (DESHIMA simulator). The psd that is obtained from Desim is
+integrated to obtain the power and finally, photon noise is added using
+a Gaussian estimation of the Poisson distribution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>power_matrix_column</strong> – Values of the power of the signal for one time sample. This matrix has shape
+[5 (number of different pwv values), number of filters]
+Unit: W</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="tiempo_deshima.signal_transmitter.signal_transmitter.rolldata">
+<code class="sig-name descname">rolldata</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tiempo_deshima/signal_transmitter.html#signal_transmitter.rolldata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiempo_deshima.signal_transmitter.signal_transmitter.rolldata" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="tiempo_deshima.signal_transmitter.signal_transmitter.sampling_rate">
+<code class="sig-name descname">sampling_rate</code><em class="property"> = 160</em><a class="headerlink" href="#tiempo_deshima.signal_transmitter.signal_transmitter.sampling_rate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="tiempo_deshima.signal_transmitter.signal_transmitter.transmit_signal_DESIM_multf_atm">
+<code class="sig-name descname">transmit_signal_DESIM_multf_atm</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tiempo_deshima/signal_transmitter.html#signal_transmitter.transmit_signal_DESIM_multf_atm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiempo_deshima.signal_transmitter.signal_transmitter.transmit_signal_DESIM_multf_atm" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function transmits the signal through the final version of the
+DESHIMA model. It starts with calculating the number of samples needed
+and making a time vector. Then the atmosphere map from ARIS is loaded in
+and filtered. It then loads the galaxy spectrum and converts this to a
+psd. Finally, it gives all the needed information to the processInput
+function that calculates the signal with parallel computing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><strong>time_vector</strong> (<em>vector</em>) – The times at which the signal needs to be calculated
+Unit: s</p></li>
+<li><p><strong>power_matrix_res</strong> (<em>array</em>) – Values of the power of the signal. This matrix has shape
+[5 (number of different pwv values), number of filters, number of time samples]
+Unit: W</p></li>
+<li><p><strong>T_sky_matrix</strong> (<em>array</em>) – Values of the sky temperature of the signal. This matrix has shape
+[5 (number of different pwv values), number of filters, number of time samples]
+Unit: K</p></li>
+<li><p><strong>self.filters</strong> (<em>vector</em>) – Center frequencies of the filters in the filterbank in the MKID chip
+Unit: Hz</p></li>
+<li><p><strong>start</strong> (<em>float</em>) – The moment at which the calculations started, to be able to show the
+elapsed time after running the program.
+Unit: s</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="tiempo_deshima.signal_transmitter.unwrap_processInput">
+<code class="sig-prename descclassname">tiempo_deshima.signal_transmitter.</code><code class="sig-name descname">unwrap_processInput</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">st1</span></em>, <em class="sig-param"><span class="n">i</span></em>, <em class="sig-param"><span class="n">aris_instance</span></em>, <em class="sig-param"><span class="n">use_desim_instance</span></em>, <em class="sig-param"><span class="n">time_step</span></em>, <em class="sig-param"><span class="n">count</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tiempo_deshima/signal_transmitter.html#unwrap_processInput"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiempo_deshima.signal_transmitter.unwrap_processInput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper function for processInput, in order to avoid bugs with joblib.parallel</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="tiempo_deshima.signal_transmitter.unwrap_processInput_vec">
+<code class="sig-prename descclassname">tiempo_deshima.signal_transmitter.</code><code class="sig-name descname">unwrap_processInput_vec</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">st1</span></em>, <em class="sig-param"><span class="n">i</span></em>, <em class="sig-param"><span class="n">aris_instance</span></em>, <em class="sig-param"><span class="n">use_desim_instance</span></em>, <em class="sig-param"><span class="n">time_step</span></em>, <em class="sig-param"><span class="n">count</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tiempo_deshima/signal_transmitter.html#unwrap_processInput_vec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tiempo_deshima.signal_transmitter.unwrap_processInput_vec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper function for processInput, in order to avoid bugs with joblib.parallel</p>
+</dd></dl>
+
+</div>
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+    <a class='left-prev' id="prev-link" href="tiempo_deshima.interface.html" title="previous page">tiempo_deshima.interface module</a>
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.30270b6e4c972e43c488.js"></script>
+
+
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    <p>
+          &copy; Copyright 2018-2020 DESHIMA software team.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

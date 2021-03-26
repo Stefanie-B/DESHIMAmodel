@@ -1,0 +1,534 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>tiempo_deshima.interface &#8212; tiempo_deshima 0.1.0 documentation</title>
+    
+  <link rel="stylesheet" href="../../_static/css/index.d431a4ee1c1efae0e38bdfebc22debff.css">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.30270b6e4c972e43c488.js">
+
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main">
+<div class="container-xl">
+
+    
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+        
+        
+        <li class="nav-item ">
+            <a class="nav-link" href="../../index.html">Home</a>
+        </li>
+        
+        <li class="nav-item ">
+            <a class="nav-link" href="../../_apidoc/tiempo_deshima.html">Package guide</a>
+        </li>
+        
+        
+      </ul>
+
+
+      
+
+      <ul class="navbar-nav">
+        
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/Stefanie-B/DESHIMAmodel/" target="_blank" rel="noopener">
+              <span><i class="fab fa-github-square"></i></span>
+            </a>
+          </li>
+        
+        
+      </ul>
+    </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+          <div class="col-12 col-md-3 bd-sidebar">
+
+<form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+
+
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+
+  <div class="bd-toc-item active">
+  
+
+  <ul class="nav bd-sidenav">
+      
+      
+      
+      
+      
+    </ul>
+
+</nav>
+          </div>
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+              
+
+<nav id="bd-toc-nav">
+    <ul class="nav section-nav flex-column">
+    
+    </ul>
+</nav>
+
+
+              
+          </div>
+          
+
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <h1>Source code for tiempo_deshima.interface</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module allows users to execute funtioncs in signal_transmitter, while providing default values so not all values need to be set manually.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="c1">#import signal_transmitter as st</span>
+<span class="c1">#import DESHIMA.MKID.filterbank as ft</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">signal_transmitter</span> <span class="k">as</span> <span class="n">st</span>
+<span class="kn">from</span> <span class="nn">.DESHIMA.MKID</span> <span class="kn">import</span> <span class="n">filterbank</span> <span class="k">as</span> <span class="n">ft</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<div class="viewcode-block" id="calcMaxObsTime"><a class="viewcode-back" href="../../_apidoc/tiempo_deshima.interface.html#tiempo_deshima.interface.calcMaxObsTime">[docs]</a><span class="k">def</span> <span class="nf">calcMaxObsTime</span><span class="p">(</span><span class="n">dictionary</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the maximum observing time, using the number of gridpoints in</span>
+<span class="sd">    one atmosphere strip, the gridwidth, the number of atmosphere strips and the</span>
+<span class="sd">    windspeed</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># maximum time</span>
+    <span class="c1"># every strip has 32768 x-values</span>
+    <span class="n">max_obs_time</span> <span class="o">=</span> <span class="p">(</span><span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;x_length_strip&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;separation&#39;</span><span class="p">])</span><span class="o">*</span> \
+                    <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;max_num_strips&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;grid&#39;</span><span class="p">]</span> \
+                    <span class="o">/</span><span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;windspeed&#39;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">max_obs_time</span></div>
+
+<div class="viewcode-block" id="convert_folder"><a class="viewcode-back" href="../../_apidoc/tiempo_deshima.interface.html#tiempo_deshima.interface.convert_folder">[docs]</a><span class="k">def</span> <span class="nf">convert_folder</span><span class="p">(</span><span class="n">folder</span><span class="p">):</span>
+    <span class="n">folder</span> <span class="o">=</span> <span class="n">folder</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+    <span class="n">folder</span> <span class="o">=</span> <span class="n">folder</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">sourcepath</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span>
+    <span class="k">while</span> <span class="n">folder</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">):</span>
+        <span class="n">folder</span> <span class="o">=</span> <span class="n">folder</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+        <span class="n">folder</span> <span class="o">=</span> <span class="n">folder</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+        <span class="n">folder</span> <span class="o">=</span> <span class="n">folder</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">sourcepath</span> <span class="o">=</span> <span class="n">sourcepath</span><span class="o">.</span><span class="n">parent</span>
+    <span class="n">sourcepath</span> <span class="o">=</span> <span class="n">sourcepath</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="n">folder</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">sourcepath</span></div>
+
+<div class="viewcode-block" id="new_filterbank"><a class="viewcode-back" href="../../_apidoc/tiempo_deshima.interface.html#tiempo_deshima.interface.new_filterbank">[docs]</a><span class="k">def</span> <span class="nf">new_filterbank</span><span class="p">(</span><span class="n">dictionary</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dictionary : dict</span>
+<span class="sd">        Dictionary obtained from get_dictionary() with the same keywords as run_tiempo() executed after this function. Input_dictionary in that function must be set to &#39;manual&#39; or &#39;path&#39;</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None.</span>
+
+<span class="sd">    Must be executed when the filter properties are changed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;savefolder&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;savefolder&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s1">&#39;output_TiEMPO&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;savefolder&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">convert_folder</span><span class="p">(</span><span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;savefolder&#39;</span><span class="p">])</span>
+    <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;sourcefolder&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">convert_folder</span><span class="p">(</span><span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;sourcefolder&#39;</span><span class="p">])</span>
+    
+    <span class="n">length_EL_vector</span> <span class="o">=</span> <span class="mi">25</span>
+    <span class="n">length_pwv_vector</span> <span class="o">=</span> <span class="mi">25</span>
+
+    <span class="c1">#test one value</span>
+    <span class="n">pwv_vector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">length_pwv_vector</span><span class="p">)</span>
+    <span class="n">EL_vector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">60.</span><span class="p">,</span> <span class="mf">60.</span><span class="p">,</span> <span class="n">length_EL_vector</span><span class="p">)</span>
+
+    <span class="c1">#make interpolation curves</span>
+    <span class="n">pwv_vector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.35</span><span class="p">,</span> <span class="n">length_pwv_vector</span><span class="p">)</span>
+    <span class="n">EL_vector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">20.</span><span class="p">,</span> <span class="mf">90.</span><span class="p">,</span> <span class="n">length_EL_vector</span><span class="p">)</span>
+    
+    <span class="n">ft1</span> <span class="o">=</span> <span class="n">ft</span><span class="o">.</span><span class="n">filterbank</span><span class="p">(</span><span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;F_min&#39;</span><span class="p">],</span> <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;spec_res&#39;</span><span class="p">],</span> <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;num_filters&#39;</span><span class="p">],</span> <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;f_spacing&#39;</span><span class="p">],</span> <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;num_bins&#39;</span><span class="p">],</span> <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;D1&#39;</span><span class="p">])</span>
+    <span class="n">ft1</span><span class="o">.</span><span class="n">save_TP_data</span><span class="p">(</span><span class="n">EL_vector</span><span class="p">,</span> <span class="n">pwv_vector</span><span class="p">)</span>
+    <span class="n">ft1</span><span class="o">.</span><span class="n">fit_TPpwvEL_curve</span><span class="p">(</span><span class="n">pwv_vector</span><span class="p">,</span> <span class="n">EL_vector</span><span class="p">)</span>
+    <span class="n">ft1</span><span class="o">.</span><span class="n">save_etaF_data</span><span class="p">(</span><span class="n">pwv_vector</span><span class="p">,</span> <span class="mf">90.</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="get_dictionary"><a class="viewcode-back" href="../../_apidoc/tiempo_deshima.interface.html#tiempo_deshima.interface.get_dictionary">[docs]</a><span class="k">def</span> <span class="nf">get_dictionary</span><span class="p">(</span><span class="n">input_dictionary</span><span class="p">,</span> <span class="n">prefix_atm_data</span><span class="p">,</span> <span class="n">sourcefolder</span><span class="p">,</span> <span class="n">save_name_data</span><span class="p">,</span> <span class="n">savefolder</span><span class="p">,</span> <span class="n">save_P</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">save_T</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">n_jobs</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span> <span class="n">n_batches</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span>\
+                   <span class="n">obs_time</span> <span class="o">=</span> <span class="mf">2.</span><span class="p">,</span> <span class="n">grid</span> <span class="o">=</span> <span class="o">.</span><span class="mi">2</span><span class="p">,</span> <span class="n">x_length_strip</span> <span class="o">=</span> <span class="mf">65536.</span><span class="p">,</span> <span class="n">separation</span> <span class="o">=</span> <span class="mf">1.1326</span><span class="p">,</span>\
+                   <span class="n">galaxy_on</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">luminosity</span> <span class="o">=</span> <span class="mf">13.7</span><span class="p">,</span> <span class="n">redshift</span> <span class="o">=</span> <span class="mf">4.43</span><span class="p">,</span> <span class="n">linewidth</span> <span class="o">=</span> <span class="mi">600</span><span class="p">,</span> \
+                   <span class="n">EL</span> <span class="o">=</span> <span class="mi">60</span><span class="p">,</span> <span class="n">EL_vec</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">max_num_strips</span> <span class="o">=</span> <span class="mi">32</span><span class="p">,</span> <span class="n">pwv_0</span> <span class="o">=</span> <span class="mf">1.</span><span class="p">,</span> <span class="n">F_min</span> <span class="o">=</span> <span class="mf">220e9</span><span class="p">,</span> \
+                   <span class="n">num_bins</span> <span class="o">=</span> <span class="mi">1500</span><span class="p">,</span> <span class="n">spec_res</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span> <span class="n">f_spacing</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span> \
+                   <span class="n">num_filters</span> <span class="o">=</span> <span class="mi">347</span><span class="p">,</span> <span class="n">beam_radius</span> <span class="o">=</span> <span class="mf">5.</span><span class="p">,</span> <span class="n">useDESIM</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> \
+                   <span class="n">inclAtmosphere</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">windspeed</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">D1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> \
+                   <span class="n">dictionary_name</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    input_dictionary : string</span>
+<span class="sd">        &#39;deshima_1&#39;, &#39;deshima_2&#39;, &#39;manual&#39; or &#39;path&#39;. Determines where the input values of keywords F_min thru come from: either standard values for DESHIMA, manual entry from the keywords or from a txt file in the order of keywords obs_time thru D1.</span>
+<span class="sd">    prefix_atm_data : string</span>
+<span class="sd">        The prefix of the output of ARIS that is being used by the TiEMPO</span>
+<span class="sd">    sourcefolder : string</span>
+<span class="sd">        Folder where ARIS data used by the model is saved, relative to the current working directory. A parent folder can be specified by prefixing with &#39;../&#39;, &#39;..\\&#39;, &#39;./&#39; or &#39;.\\&#39;</span>
+<span class="sd">    save_name_data : string</span>
+<span class="sd">        Prefix of the output of TiEMPO</span>
+<span class="sd">    savefolder : string</span>
+<span class="sd">        Folder where the output of the model will be saved relative to the current working directory. A parent folder can be specified by prefixing with &#39;../&#39;, &#39;..\\&#39;, &#39;./&#39; or &#39;.\\&#39;</span>
+<span class="sd">    save_P : bool</span>
+<span class="sd">        determines whether the power in Watts is saved as an output. Default is True</span>
+<span class="sd">    save_T : bool</span>
+<span class="sd">        determines whether the sky temperature in Kelvins is saved as an output. Default is True.</span>
+<span class="sd">    n_jobs : int</span>
+<span class="sd">        maximum number of concurrently running jobs (size of thread-pool). -1 means all CPUs are used.</span>
+<span class="sd">    n_batches : int</span>
+<span class="sd">        number of batches the entire observation is divided up into. Default is 8.</span>
+<span class="sd">    obs_time : float, optional</span>
+<span class="sd">        Length of the observation in seconds. The default is 2..</span>
+<span class="sd">    grid : float, optional</span>
+<span class="sd">        The width of a grid square in the atmosphere map in meters. The default is .2.</span>
+<span class="sd">    x_length_strip : int, optional</span>
+<span class="sd">        The length of one atmosphere strip in the x direction in number of gridpoints (NOT METERS). The default is 65536.</span>
+<span class="sd">    separation : float, optional</span>
+<span class="sd">        Separation between two chop positions in m, assuming that the atmosphere is at 1km height. Default is 1.1326 (this corresponds to 116.8 arcsec).</span>
+<span class="sd">    galaxy_on : bool, optional</span>
+<span class="sd">        Determines whether there is a galaxy in position 2. The default is True.</span>
+<span class="sd">    luminosity : float, optional</span>
+<span class="sd">        Luminosity if the galaxy in log(L_fir [L_sol]). The default is 13.7.</span>
+<span class="sd">    redshift : float, optional</span>
+<span class="sd">        The redshift of the galaxy. The default is 4.43.</span>
+<span class="sd">    linewidth : float, optional</span>
+<span class="sd">        Width of the spectral lines in the galaxy spectrum in km/s. The default is 600.</span>
+<span class="sd">    EL : float, optional</span>
+<span class="sd">        Elevation of the telescope in degrees. The default is 60.</span>
+<span class="sd">    EL_vec: vector of floats, optional</span>
+<span class="sd">        If this parameter is set, it allows to specify the elevation of the telescope in degrees per timestep, for example in the case of tracking a target. Vector must have a length of 160Hz * obs_time.</span>
+<span class="sd">    max_num_strips : int, optional</span>
+<span class="sd">        Number of atmosphere strips that are saved in the ARIS output folder. The default is 32.</span>
+<span class="sd">    pwv_0 : float, optional</span>
+<span class="sd">        Baseline value of precipitable water vapor that is added to the d(pwv) from ARIS in mm. The default is 1.</span>
+<span class="sd">    F_min : float, optional</span>
+<span class="sd">        Lowest center frequency of all the MKIDs. The default is 220e9.</span>
+<span class="sd">    num_bins : int, optional</span>
+<span class="sd">         determines the amount of bins used in the simulation of the galaxy spectrum. The default is 1500.</span>
+<span class="sd">    spec_res : float, optional</span>
+<span class="sd">        Spectral resolution. The default is 500.</span>
+<span class="sd">    f_spacing : float, optional</span>
+<span class="sd">        spacing between center frequencies = F/dF (mean). The default is 500.</span>
+<span class="sd">    num_filters : int, optional</span>
+<span class="sd">        Number of filters in the filterbank. The default is 347.</span>
+<span class="sd">    beam_radius : float, optional</span>
+<span class="sd">        Radius of the Gaussian beam in meters. The default is 5.</span>
+<span class="sd">    useDESIM : int, optional</span>
+<span class="sd">        1 or 0. Determines whether the simple atmospheric model is used (0) or the more sophisticated desim simulation (1). The default is 1.</span>
+<span class="sd">    inclAtmosphere : int, optional</span>
+<span class="sd">        1 or 0. Determines whether the atmosphere is included in the simulation. The default is 1 (yes).</span>
+<span class="sd">    windspeed: float, optional</span>
+<span class="sd">        Sped of the wind in meters/second. The default is 10.</span>
+<span class="sd">    D1 : int, optional</span>
+<span class="sd">        1 or 0. Determines whether DESHIMA 1.0 is simulated. The default is 0.</span>
+<span class="sd">    dictionary_name : string, optional</span>
+<span class="sd">        name of a txt file in which the values of optional keywords are saved. prefix_atm_data, sourcefolder, save_name_data, savefolder, n_jobs, save_P, save_T and EL_vec must still be set outside the file. Only used when input_dictionary is set to &#39;path&#39;. The default is &#39;&#39;. Order of the entries in the txt file must be: F_min, num_bins, spec_res, f_spacing, num_filters, beam_radius, useDESIM, inclAtmosphere, D1, time, grid, x_length_strip, galaxy_on, luminosity, redshift, linewidth, EL, max_num_strips, pwv_0, windspeed, n_batches.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dictionary : dict</span>
+<span class="sd">        Dictionary with the above keywords.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">input_dictionary</span> <span class="o">==</span> <span class="s1">&#39;deshima_1&#39;</span><span class="p">:</span>
+        <span class="n">dictionary</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;F_min&#39;</span><span class="p">:</span> <span class="mf">332e9</span><span class="p">,</span>
+            <span class="s1">&#39;num_bins&#39;</span><span class="p">:</span> <span class="mi">1500</span><span class="p">,</span>
+            <span class="s1">&#39;spec_res&#39;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+            <span class="s1">&#39;f_spacing&#39;</span><span class="p">:</span> <span class="mi">380</span><span class="p">,</span>
+            <span class="s1">&#39;num_filters&#39;</span><span class="p">:</span> <span class="mi">49</span><span class="p">,</span>
+            <span class="s1">&#39;beam_radius&#39;</span><span class="p">:</span> <span class="mf">5.</span><span class="p">,</span>
+            <span class="s1">&#39;useDESIM&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s1">&#39;inclAtmosphere&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s1">&#39;D1&#39;</span><span class="p">:</span> <span class="mi">1</span>
+        <span class="p">}</span>
+    <span class="k">elif</span> <span class="n">input_dictionary</span> <span class="o">==</span> <span class="s1">&#39;deshima_2&#39;</span><span class="p">:</span>
+        <span class="n">dictionary</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;F_min&#39;</span><span class="p">:</span> <span class="mf">220e9</span><span class="p">,</span>
+            <span class="s1">&#39;num_bins&#39;</span><span class="p">:</span> <span class="mi">1500</span><span class="p">,</span>
+            <span class="s1">&#39;spec_res&#39;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span>
+            <span class="s1">&#39;f_spacing&#39;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span>
+            <span class="s1">&#39;num_filters&#39;</span><span class="p">:</span> <span class="mi">347</span><span class="p">,</span>
+            <span class="s1">&#39;beam_radius&#39;</span><span class="p">:</span> <span class="mf">5.</span><span class="p">,</span>
+            <span class="s1">&#39;useDESIM&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s1">&#39;inclAtmosphere&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s1">&#39;D1&#39;</span><span class="p">:</span> <span class="mi">0</span>
+        <span class="p">}</span>
+    <span class="k">elif</span> <span class="n">input_dictionary</span> <span class="o">==</span> <span class="s1">&#39;manual&#39;</span><span class="p">:</span>
+        <span class="n">dictionary</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;F_min&#39;</span><span class="p">:</span> <span class="n">F_min</span><span class="p">,</span>
+            <span class="s1">&#39;num_bins&#39;</span><span class="p">:</span> <span class="n">num_bins</span><span class="p">,</span>
+            <span class="s1">&#39;spec_res&#39;</span><span class="p">:</span> <span class="n">spec_res</span><span class="p">,</span>
+            <span class="s1">&#39;f_spacing&#39;</span><span class="p">:</span> <span class="n">f_spacing</span><span class="p">,</span>
+            <span class="s1">&#39;num_filters&#39;</span><span class="p">:</span> <span class="n">num_filters</span><span class="p">,</span>
+            <span class="s1">&#39;beam_radius&#39;</span><span class="p">:</span> <span class="n">beam_radius</span><span class="p">,</span>
+            <span class="s1">&#39;useDESIM&#39;</span><span class="p">:</span> <span class="n">useDESIM</span><span class="p">,</span>
+            <span class="s1">&#39;inclAtmosphere&#39;</span><span class="p">:</span> <span class="n">inclAtmosphere</span><span class="p">,</span>
+            <span class="s1">&#39;D1&#39;</span><span class="p">:</span> <span class="n">D1</span>
+        <span class="p">}</span>
+    <span class="k">else</span><span class="p">:</span> 
+        <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span><span class="o">+</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">dictionary_name</span><span class="p">,</span> <span class="n">comments</span><span class="o">=</span><span class="s1">&#39;#&#39;</span><span class="p">)</span>
+        <span class="n">dictionary</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;F_min&#39;</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="s1">&#39;num_bins&#39;</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+            <span class="s1">&#39;spec_res&#39;</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+            <span class="s1">&#39;f_spacing&#39;</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span>
+            <span class="s1">&#39;num_filters&#39;</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span>
+            <span class="s1">&#39;beam_radius&#39;</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span>
+            <span class="s1">&#39;useDESIM&#39;</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span>
+            <span class="s1">&#39;inclAtmosphere&#39;</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="mi">7</span><span class="p">],</span>
+            <span class="s1">&#39;D1&#39;</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="mi">8</span><span class="p">],</span>
+            <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="mi">9</span><span class="p">],</span>
+            <span class="s1">&#39;grid&#39;</span><span class="p">:</span><span class="n">d</span><span class="p">[</span><span class="mi">10</span><span class="p">],</span>
+            <span class="s1">&#39;x_length_strip&#39;</span><span class="p">:</span><span class="n">d</span><span class="p">[</span><span class="mi">11</span><span class="p">],</span>
+            <span class="s1">&#39;separation&#39;</span><span class="p">:</span><span class="n">d</span><span class="p">[</span><span class="mi">12</span><span class="p">],</span>
+            <span class="s1">&#39;galaxy_on&#39;</span><span class="p">:</span><span class="n">d</span><span class="p">[</span><span class="mi">13</span><span class="p">],</span>
+            <span class="s1">&#39;luminosity&#39;</span><span class="p">:</span><span class="n">d</span><span class="p">[</span><span class="mi">14</span><span class="p">],</span>
+            <span class="s1">&#39;redshift&#39;</span><span class="p">:</span><span class="n">d</span><span class="p">[</span><span class="mi">15</span><span class="p">],</span>
+            <span class="s1">&#39;linewidth&#39;</span><span class="p">:</span><span class="n">d</span><span class="p">[</span><span class="mi">16</span><span class="p">],</span>
+            <span class="s1">&#39;EL&#39;</span><span class="p">:</span><span class="n">d</span><span class="p">[</span><span class="mi">17</span><span class="p">],</span>
+            <span class="s1">&#39;max_num_strips&#39;</span><span class="p">:</span><span class="n">d</span><span class="p">[</span><span class="mi">18</span><span class="p">],</span>
+            <span class="s1">&#39;pwv_0&#39;</span><span class="p">:</span><span class="n">d</span><span class="p">[</span><span class="mi">19</span><span class="p">],</span>
+            <span class="s1">&#39;windspeed&#39;</span><span class="p">:</span><span class="n">d</span><span class="p">[</span><span class="mi">20</span><span class="p">],</span>
+            <span class="s1">&#39;n_batches&#39;</span><span class="p">:</span><span class="n">d</span><span class="p">[</span><span class="mi">21</span><span class="p">],</span>
+            <span class="s1">&#39;save_P&#39;</span><span class="p">:</span> <span class="n">save_P</span><span class="p">,</span>
+            <span class="s1">&#39;save_T&#39;</span><span class="p">:</span> <span class="n">save_T</span><span class="p">,</span>
+            <span class="s1">&#39;prefix_atm_data&#39;</span><span class="p">:</span><span class="n">prefix_atm_data</span><span class="p">,</span>
+            <span class="s1">&#39;save_name_data&#39;</span><span class="p">:</span><span class="n">save_name_data</span><span class="p">,</span>
+            <span class="s1">&#39;n_jobs&#39;</span><span class="p">:</span><span class="n">n_jobs</span><span class="p">,</span>
+            <span class="s1">&#39;savefolder&#39;</span> <span class="p">:</span> <span class="n">savefolder</span><span class="p">,</span>
+            <span class="s1">&#39;sourcefolder&#39;</span> <span class="p">:</span> <span class="n">sourcefolder</span><span class="p">,</span>
+            <span class="s1">&#39;EL_vec&#39;</span><span class="p">:</span> <span class="n">EL_vec</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">dictionary</span>
+    <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;n_jobs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n_jobs</span><span class="p">)</span>
+    <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">obs_time</span>
+    <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;prefix_atm_data&#39;</span><span class="p">]</span><span class="o">=</span> <span class="n">prefix_atm_data</span>
+    <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;grid&#39;</span><span class="p">]</span><span class="o">=</span> <span class="n">grid</span>
+    <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;x_length_strip&#39;</span><span class="p">]</span><span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">x_length_strip</span><span class="p">)</span>
+    <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;galaxy_on&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">galaxy_on</span>
+    <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;luminosity&#39;</span><span class="p">]</span><span class="o">=</span> <span class="n">luminosity</span>
+    <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;redshift&#39;</span><span class="p">]</span><span class="o">=</span> <span class="n">redshift</span>
+    <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;linewidth&#39;</span><span class="p">]</span><span class="o">=</span> <span class="n">linewidth</span>
+    <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;EL&#39;</span><span class="p">]</span><span class="o">=</span> <span class="n">EL</span>
+    <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;max_num_strips&#39;</span><span class="p">]</span><span class="o">=</span> <span class="n">max_num_strips</span>
+    <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;save_name_data&#39;</span><span class="p">]</span><span class="o">=</span> <span class="n">save_name_data</span>
+    <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;pwv_0&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pwv_0</span>
+    <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;windspeed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">windspeed</span>
+    <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;savefolder&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">savefolder</span>
+    <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;sourcefolder&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sourcefolder</span>
+    <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;EL_vec&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">EL_vec</span>
+    <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;save_P&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">save_P</span>
+    <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;save_T&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">save_T</span>
+    <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;n_batches&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n_batches</span><span class="p">)</span>
+    <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;separation&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">separation</span>
+    <span class="k">return</span> <span class="n">dictionary</span></div>
+
+<div class="viewcode-block" id="run_tiempo"><a class="viewcode-back" href="../../_apidoc/tiempo_deshima.interface.html#tiempo_deshima.interface.run_tiempo">[docs]</a><span class="k">def</span> <span class="nf">run_tiempo</span><span class="p">(</span><span class="n">input_dictionary</span><span class="p">,</span> <span class="n">prefix_atm_data</span><span class="p">,</span> <span class="n">sourcefolder</span><span class="p">,</span> <span class="n">save_name_data</span><span class="p">,</span> <span class="n">savefolder</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">save_P</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">save_T</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">n_jobs</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span> <span class="n">n_batches</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span>\
+                   <span class="n">obs_time</span> <span class="o">=</span> <span class="mf">3600.</span><span class="p">,</span> <span class="n">grid</span> <span class="o">=</span> <span class="o">.</span><span class="mi">2</span><span class="p">,</span> <span class="n">x_length_strip</span> <span class="o">=</span> <span class="mf">65536.</span><span class="p">,</span> <span class="n">separation</span> <span class="o">=</span> <span class="mf">1.1326</span><span class="p">,</span>\
+                   <span class="n">galaxy_on</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">luminosity</span> <span class="o">=</span> <span class="mf">13.7</span><span class="p">,</span> <span class="n">redshift</span> <span class="o">=</span> <span class="mf">4.43</span><span class="p">,</span> <span class="n">linewidth</span> <span class="o">=</span> <span class="mi">600</span><span class="p">,</span> \
+                   <span class="n">EL</span> <span class="o">=</span> <span class="mi">60</span><span class="p">,</span> <span class="n">EL_vec</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_num_strips</span> <span class="o">=</span> <span class="mi">32</span><span class="p">,</span> <span class="n">pwv_0</span> <span class="o">=</span> <span class="mf">1.</span><span class="p">,</span> <span class="n">F_min</span> <span class="o">=</span> <span class="mf">220e9</span><span class="p">,</span> \
+                   <span class="n">num_bins</span> <span class="o">=</span> <span class="mi">1500</span><span class="p">,</span> <span class="n">spec_res</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span> <span class="n">f_spacing</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span> \
+                   <span class="n">num_filters</span> <span class="o">=</span> <span class="mi">347</span><span class="p">,</span> <span class="n">beam_radius</span> <span class="o">=</span> <span class="mf">5.</span><span class="p">,</span> <span class="n">useDESIM</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> \
+                   <span class="n">inclAtmosphere</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">windspeed</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">D1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">dictionary_name</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    input_dictionary : string</span>
+<span class="sd">        &#39;deshima_1&#39;, &#39;deshima_2&#39;, &#39;manual&#39; or &#39;path&#39;. Determines where the input values of keywords F_min thru come from: either standard values for DESHIMA, manual entry from the keywords or from a txt file.</span>
+<span class="sd">    prefix_atm_data : string</span>
+<span class="sd">        The prefix of the output of ARIS that is being used by the TiEMPO</span>
+<span class="sd">    sourcefolder : string</span>
+<span class="sd">        Folder where ARIS data used by the model is saved, relative to the current working directory. A parent folder can be specified by prefixing with &#39;../&#39;, &#39;..\\&#39;, &#39;./&#39; or &#39;.\\&#39;</span>
+<span class="sd">    save_name_data : string</span>
+<span class="sd">        Prefix of the output of TiEMPO</span>
+<span class="sd">    savefolder : string</span>
+<span class="sd">        Folder where the output of the model will be saved relative to the current working directory. A parent folder can be specified by prefixing with &#39;../&#39;, &#39;..\\&#39;, &#39;./&#39; or &#39;.\\&#39;</span>
+<span class="sd">    save_P : bool</span>
+<span class="sd">        determines whether the power in Watts is saved as an output. Default is True</span>
+<span class="sd">    save_T : bool</span>
+<span class="sd">        determines whether the sky temperature in Kelvins is saved as an output. Default is True.</span>
+<span class="sd">    n_jobs : int</span>
+<span class="sd">        maximum number of concurrently running jobs (size of thread-pool). -1 means all CPUs are used.</span>
+<span class="sd">    n_batches : int</span>
+<span class="sd">        number of batches the entire observation is divided up into. Default is 8.</span>
+<span class="sd">    obs_time : float, optional</span>
+<span class="sd">        Length of the observation in seconds. The default is 2.0.</span>
+<span class="sd">    grid : float, optional</span>
+<span class="sd">        The width of a grid square in the atmosphere map in meters. The default is .2.</span>
+<span class="sd">    x_length_strip : int, optional</span>
+<span class="sd">        The length of one atmosphere strip in the x direction in number of gridpoints (NOT METERS). The default is 65536.</span>
+<span class="sd">    separation : float, optional</span>
+<span class="sd">        Separation between two chop positions in m, assuming that the atmosphere is at 1km height. Default is 1.1326 (this corresponds to 116.8 arcsec).</span>
+<span class="sd">    galaxy_on : bool, optional</span>
+<span class="sd">        Determines whether there is a galaxy in position 2. T The default is True.</span>
+<span class="sd">    luminosity : float, optional</span>
+<span class="sd">        Luminosity if the galaxy in log(L_fir [L_sol]). The default is 13.7.</span>
+<span class="sd">    redshift : float, optional</span>
+<span class="sd">        The redshift of the galaxy. The default is 4.43.</span>
+<span class="sd">    linewidth : float, optional</span>
+<span class="sd">        Width of the spectral lines in the galaxy spectrum in km/s. The default is 600.</span>
+<span class="sd">    EL : float, optional</span>
+<span class="sd">        Elevation of the telescope in degrees. The default is 60.</span>
+<span class="sd">    EL_vec: vector of floats, optional</span>
+<span class="sd">        If this parameter is set, it allows to specify the elevation of the telescope in degrees per timestep, for example in the case of tracking a target. Vector must have a length of 160Hz * obs_time.</span>
+<span class="sd">    max_num_strips : int, optional</span>
+<span class="sd">        Number of atmosphere strips that are saved in the ARIS output folder. The default is 32.</span>
+<span class="sd">    pwv_0 : float, optional</span>
+<span class="sd">        Baseline value of precipitable water vapor that is added to the d(pwv) from ARIS in mm. The default is 1.</span>
+<span class="sd">    F_min : float, optional</span>
+<span class="sd">        Lowest center frequency of all the MKIDs. The default is 220e9.</span>
+<span class="sd">    num_bins : int, optional</span>
+<span class="sd">         determines the amount of bins used in the simulation of the galaxy spectrum. The default is 1500.</span>
+<span class="sd">    spec_res : float, optional</span>
+<span class="sd">        Spectral resolution. The default is 500.</span>
+<span class="sd">    f_spacing : float, optional</span>
+<span class="sd">        spacing between center frequencies = F/dF (mean). The default is 500.</span>
+<span class="sd">    num_filters : int, optional</span>
+<span class="sd">        Number of filters in the filterbank. The default is 347.</span>
+<span class="sd">    beam_radius : float, optional</span>
+<span class="sd">        Radius of the Gaussian beam in meters. The default is 5.</span>
+<span class="sd">    useDESIM : int, optional</span>
+<span class="sd">        1 or 0. Determines whether the simple atmospheric model is used (0) or the more sophisticated desim simulation (1). The default is 1.</span>
+<span class="sd">    inclAtmosphere : int, optional</span>
+<span class="sd">        1 or 0.Determines whether the simple atmospheric model is used (0) or the more sophisticated desim simulation (1). The default is 1 (yes).</span>
+<span class="sd">    windspeed: float, optional</span>
+<span class="sd">        Sped of the wind in meters/second. The default is 10.</span>
+<span class="sd">    D1 : int, optional</span>
+<span class="sd">        1 or 0. Determines whether DESHIMA 1.0 is simulated. The default is 0.</span>
+<span class="sd">    dictionary_name : string, optional</span>
+<span class="sd">        name of a txt file in which the values of optional keywords are saved. prefix_atm_data, sourcefolder, save_name_data, savefolder, n_jobs, save_P, save_T and EL_vec must still be set outside the file. Only used when input_dictionary is set to &#39;path&#39;. The default is &#39;&#39;. Order of the entries in the txt file must be: F_min, num_bins, spec_res, f_spacing, num_filters, beam_radius, useDESIM, inclAtmosphere, D1, time, grid, x_length_strip, luminosity, redshift, linewidth, EL, max_num_strips, pwv_0, windspeed, n_batches.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    time_vector: array of floats</span>
+<span class="sd">        Moments in time at which the signal is calculated.</span>
+<span class="sd">    center_freq: array of floats</span>
+<span class="sd">        Center frequencies of the MKIDs</span>
+<span class="sd">    </span>
+<span class="sd">    Saves &#39;&lt;cwd&gt;/output_TiEMPO/&lt;save_name_data&gt;+P_X.npy&#39; OR &#39;&lt;savefolder&gt;/&lt;save_name_data&gt;+P_X.npy&#39;: numpy array of floats</span>
+<span class="sd">        array of the power values of the signal in Watts. Dimensions are: [5 x #filters x #timesamples], as 5 pwv values are taken for each timesample</span>
+<span class="sd">    Saves &#39;&lt;cwd&gt;/output_TiEMPO/&lt;save_name_data&gt;+T_X.npy&#39; OR &#39;&lt;savefolder&gt;/&lt;save_name_data&gt;+T_X.npy&#39;: numpy array of floats</span>
+<span class="sd">        array of the power values of the signal converted to sky temperature in Kelvins. Dimensions are: [5 x #filters x #timesamples], as 5 pwv values are taken for each timesample</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dictionary</span> <span class="o">=</span> <span class="n">get_dictionary</span><span class="p">(</span><span class="n">input_dictionary</span><span class="p">,</span> <span class="n">prefix_atm_data</span><span class="p">,</span> <span class="n">sourcefolder</span><span class="p">,</span>\
+                                <span class="n">save_name_data</span><span class="p">,</span> <span class="n">savefolder</span><span class="p">,</span> <span class="n">save_P</span><span class="p">,</span> <span class="n">save_T</span><span class="p">,</span> <span class="n">n_jobs</span><span class="p">,</span> <span class="n">n_batches</span><span class="p">,</span> <span class="n">obs_time</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> \
+                                <span class="n">x_length_strip</span><span class="p">,</span> <span class="n">separation</span><span class="p">,</span> <span class="n">galaxy_on</span><span class="p">,</span><span class="n">luminosity</span><span class="p">,</span> <span class="n">redshift</span><span class="p">,</span> \
+                                <span class="n">linewidth</span><span class="p">,</span> <span class="n">EL</span><span class="p">,</span> <span class="n">EL_vec</span><span class="p">,</span> <span class="n">max_num_strips</span><span class="p">,</span> <span class="n">pwv_0</span><span class="p">,</span> <span class="n">F_min</span><span class="p">,</span> \
+                                <span class="n">num_bins</span><span class="p">,</span> <span class="n">spec_res</span><span class="p">,</span> <span class="n">f_spacing</span><span class="p">,</span> <span class="n">num_filters</span><span class="p">,</span> \
+                                <span class="n">beam_radius</span><span class="p">,</span> <span class="n">useDESIM</span><span class="p">,</span> <span class="n">inclAtmosphere</span><span class="p">,</span> \
+                                <span class="n">windspeed</span><span class="p">,</span> <span class="n">D1</span><span class="p">,</span> <span class="n">dictionary_name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;savefolder&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;savefolder&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s1">&#39;output_TiEMPO&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;savefolder&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">convert_folder</span><span class="p">(</span><span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;savefolder&#39;</span><span class="p">])</span>
+    <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;sourcefolder&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">convert_folder</span><span class="p">(</span><span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;sourcefolder&#39;</span><span class="p">])</span>
+    
+    <span class="k">if</span> <span class="nb">round</span><span class="p">(</span><span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;separation&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;grid&#39;</span><span class="p">])</span> <span class="o">!=</span> <span class="mf">1e-6</span><span class="o">*</span><span class="nb">round</span><span class="p">(</span><span class="mf">1e6</span><span class="o">*</span><span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;separation&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;grid&#39;</span><span class="p">]):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The separation is not an integer multiple of the ARIS grid size. Consider changing the separation to </span><span class="si">{:.5f}</span><span class="s1"> m or </span><span class="si">{:.5f}</span><span class="s1"> m instead of </span><span class="si">{}</span><span class="s1"> m&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;grid&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;separation&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;grid&#39;</span><span class="p">]),</span> <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;grid&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;separation&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;grid&#39;</span><span class="p">]),</span> <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;separation&#39;</span><span class="p">]))</span>
+    
+    <span class="n">num_steps</span> <span class="o">=</span> <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;separation&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;windspeed&#39;</span><span class="p">]</span><span class="o">/</span><span class="mi">160</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">round</span><span class="p">(</span><span class="n">num_steps</span><span class="p">)</span> <span class="o">!=</span> <span class="n">num_steps</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Separation is not an integer multiple of atmosphere distance per sample. Consider changing the windspeed to </span><span class="si">{}</span><span class="s1"> m/s or </span><span class="si">{}</span><span class="s1"> m/s instead of </span><span class="si">{}</span><span class="s1"> m/s&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;separation&#39;</span><span class="p">]</span><span class="o">*</span><span class="mi">160</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">num_steps</span><span class="p">),</span> <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;separation&#39;</span><span class="p">]</span><span class="o">*</span><span class="mi">160</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">num_steps</span><span class="p">),</span> <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;windspeed&#39;</span><span class="p">]))</span>
+    
+    <span class="n">max_obs_time</span> <span class="o">=</span> <span class="n">calcMaxObsTime</span><span class="p">(</span><span class="n">dictionary</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">obs_time</span> <span class="o">&gt;</span> <span class="n">max_obs_time</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;obs_time must be smaller than: &#39;</span><span class="p">,</span> <span class="n">max_obs_time</span><span class="p">)</span>
+        
+    <span class="k">if</span> <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;n_jobs&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Please set a number of threads greater than or equal to 1 in n_jobs.&#39;</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;n_batches&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Please set a number of signal batches greater than or equal to 1 in n_batches.&#39;</span><span class="p">)</span>
+    
+    <span class="n">st1</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">signal_transmitter</span><span class="p">(</span><span class="n">dictionary</span><span class="p">)</span>
+    <span class="p">[</span><span class="n">time_vector</span><span class="p">,</span> <span class="n">center_freq</span><span class="p">]</span> <span class="o">=</span> <span class="n">st1</span><span class="o">.</span><span class="n">transmit_signal_DESIM_multf_atm</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">time_vector</span><span class="p">,</span> <span class="n">center_freq</span></div>
+</pre></div>
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+
+    
+  <script src="../../_static/js/index.30270b6e4c972e43c488.js"></script>
+
+
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    <p>
+          &copy; Copyright 2018-2020 DESHIMA software team.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

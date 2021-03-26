@@ -1,0 +1,425 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>tiempo_deshima.signal_transmitter &#8212; tiempo_deshima 0.1.0 documentation</title>
+    
+  <link rel="stylesheet" href="../../_static/css/index.d431a4ee1c1efae0e38bdfebc22debff.css">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.30270b6e4c972e43c488.js">
+
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main">
+<div class="container-xl">
+
+    
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar-menu" class="col-lg-9 collapse navbar-collapse">
+      <ul id="navbar-main-elements" class="navbar-nav mr-auto">
+        
+        
+        <li class="nav-item ">
+            <a class="nav-link" href="../../index.html">Home</a>
+        </li>
+        
+        <li class="nav-item ">
+            <a class="nav-link" href="../../_apidoc/tiempo_deshima.html">Package guide</a>
+        </li>
+        
+        
+      </ul>
+
+
+      
+
+      <ul class="navbar-nav">
+        
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/Stefanie-B/DESHIMAmodel/" target="_blank" rel="noopener">
+              <span><i class="fab fa-github-square"></i></span>
+            </a>
+          </li>
+        
+        
+      </ul>
+    </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+          <div class="col-12 col-md-3 bd-sidebar">
+
+<form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+
+
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+
+  <div class="bd-toc-item active">
+  
+
+  <ul class="nav bd-sidenav">
+      
+      
+      
+      
+      
+    </ul>
+
+</nav>
+          </div>
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+              
+
+<nav id="bd-toc-nav">
+    <ul class="nav section-nav flex-column">
+    
+    </ul>
+</nav>
+
+
+              
+          </div>
+          
+
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <h1>Source code for tiempo_deshima.signal_transmitter</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">DESHIMA Model signal_transmitter</span>
+
+<span class="sd">Transmits a signal through all components of the ASTE telescope,</span>
+<span class="sd">which corresponds to transmitting a signal through multiple objects in the model</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1">#import time</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">from</span> <span class="nn">joblib</span> <span class="kn">import</span> <span class="n">Parallel</span><span class="p">,</span> <span class="n">delayed</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">galspec</span>
+<span class="kn">import</span> <span class="nn">gc</span>
+
+<span class="kn">from</span> <span class="nn">.DESHIMA.desim</span> <span class="kn">import</span> <span class="n">minidesim</span> <span class="k">as</span> <span class="n">dsm</span>
+<span class="kn">from</span> <span class="nn">.Atmosphere</span> <span class="kn">import</span> <span class="n">use_aris</span>
+<span class="kn">from</span> <span class="nn">.Telescope</span> <span class="kn">import</span> <span class="n">telescope_transmission</span> <span class="k">as</span> <span class="n">tt</span>
+<span class="kn">from</span> <span class="nn">.DESHIMA</span> <span class="kn">import</span> <span class="n">use_desim</span>
+<span class="kn">from</span> <span class="nn">.DESHIMA.MKID</span> <span class="kn">import</span> <span class="n">photon_noise</span> <span class="k">as</span> <span class="n">pn</span>
+
+<span class="c1"># import DESHIMA.desim.minidesim as dsm</span>
+<span class="c1"># import Atmosphere.use_aris as use_aris</span>
+<span class="c1"># import Telescope.telescope_transmission as tt</span>
+<span class="c1"># import DESHIMA.use_desim as use_desim</span>
+<span class="c1"># import DESHIMA.MKID.photon_noise as pn</span>
+
+<div class="viewcode-block" id="unwrap_processInput_vec"><a class="viewcode-back" href="../../_apidoc/tiempo_deshima.signal_transmitter.html#tiempo_deshima.signal_transmitter.unwrap_processInput_vec">[docs]</a><span class="k">def</span> <span class="nf">unwrap_processInput_vec</span><span class="p">(</span><span class="n">st1</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">aris_instance</span><span class="p">,</span> <span class="n">use_desim_instance</span><span class="p">,</span> <span class="n">time_step</span><span class="p">,</span> <span class="n">count</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Wrapper function for processInput, in order to avoid bugs with joblib.parallel</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">st1</span><span class="o">.</span><span class="n">vecmode</span><span class="p">:</span> <span class="n">st1</span><span class="o">.</span><span class="n">EL</span> <span class="o">=</span> <span class="n">st1</span><span class="o">.</span><span class="n">EL_vec</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">st1</span><span class="o">.</span><span class="n">processInput</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">aris_instance</span><span class="o">=</span><span class="n">aris_instance</span><span class="p">,</span> <span class="n">use_desim_instance</span><span class="o">=</span><span class="n">use_desim_instance</span><span class="p">,</span> <span class="n">time_step</span><span class="o">=</span><span class="n">time_step</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">count</span><span class="p">)</span>
+    <span class="n">gc</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="unwrap_processInput"><a class="viewcode-back" href="../../_apidoc/tiempo_deshima.signal_transmitter.html#tiempo_deshima.signal_transmitter.unwrap_processInput">[docs]</a><span class="k">def</span> <span class="nf">unwrap_processInput</span><span class="p">(</span><span class="n">st1</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">aris_instance</span><span class="p">,</span> <span class="n">use_desim_instance</span><span class="p">,</span> <span class="n">time_step</span><span class="p">,</span> <span class="n">count</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Wrapper function for processInput, in order to avoid bugs with joblib.parallel</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">st1</span><span class="o">.</span><span class="n">processInput</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">aris_instance</span><span class="o">=</span><span class="n">aris_instance</span><span class="p">,</span> <span class="n">use_desim_instance</span><span class="o">=</span><span class="n">use_desim_instance</span><span class="p">,</span> <span class="n">time_step</span><span class="o">=</span><span class="n">time_step</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">count</span><span class="p">)</span>
+    <span class="k">del</span> <span class="n">st1</span>
+    <span class="n">gc</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="signal_transmitter"><a class="viewcode-back" href="../../_apidoc/tiempo_deshima.signal_transmitter.html#tiempo_deshima.signal_transmitter.signal_transmitter">[docs]</a><span class="k">class</span> <span class="nc">signal_transmitter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="s2">&quot;Class that transmits the signal through all components of the model&quot;</span>
+
+    <span class="n">sampling_rate</span> <span class="o">=</span> <span class="mi">160</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input</span> <span class="o">=</span> <span class="nb">input</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">F_min</span> <span class="o">=</span> <span class="nb">input</span><span class="p">[</span><span class="s1">&#39;F_min&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_bins</span> <span class="o">=</span> <span class="nb">input</span><span class="p">[</span><span class="s1">&#39;num_bins&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spec_res</span> <span class="o">=</span> <span class="nb">input</span><span class="p">[</span><span class="s1">&#39;spec_res&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">f_spacing</span> <span class="o">=</span> <span class="nb">input</span><span class="p">[</span><span class="s1">&#39;f_spacing&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">F0</span> <span class="o">=</span> <span class="nb">input</span><span class="p">[</span><span class="s1">&#39;F_min&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="nb">input</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_filters</span> <span class="o">=</span> <span class="nb">input</span><span class="p">[</span><span class="s1">&#39;num_filters&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">windspeed</span> <span class="o">=</span> <span class="nb">input</span><span class="p">[</span><span class="s1">&#39;windspeed&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prefix_atm_data</span> <span class="o">=</span> <span class="nb">input</span><span class="p">[</span><span class="s1">&#39;prefix_atm_data&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="nb">input</span><span class="p">[</span><span class="s1">&#39;grid&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x_length_strip</span> <span class="o">=</span> <span class="nb">input</span><span class="p">[</span><span class="s1">&#39;x_length_strip&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">beam_radius</span> <span class="o">=</span> <span class="nb">input</span><span class="p">[</span><span class="s1">&#39;beam_radius&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">useDESIM</span> <span class="o">=</span> <span class="nb">input</span><span class="p">[</span><span class="s1">&#39;useDESIM&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inclAtmosphere</span> <span class="o">=</span> <span class="nb">input</span><span class="p">[</span><span class="s1">&#39;inclAtmosphere&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">galaxy_on</span> <span class="o">=</span> <span class="nb">input</span><span class="p">[</span><span class="s1">&#39;galaxy_on&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">luminosity</span> <span class="o">=</span> <span class="nb">input</span><span class="p">[</span><span class="s1">&#39;luminosity&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">redshift</span> <span class="o">=</span> <span class="nb">input</span><span class="p">[</span><span class="s1">&#39;redshift&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">linewidth</span> <span class="o">=</span> <span class="nb">input</span><span class="p">[</span><span class="s1">&#39;linewidth&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">EL</span> <span class="o">=</span> <span class="nb">input</span><span class="p">[</span><span class="s1">&#39;EL&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">EL_vec</span> <span class="o">=</span> <span class="nb">input</span><span class="p">[</span><span class="s1">&#39;EL_vec&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">EL_vec</span><span class="p">)</span> <span class="o">==</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">vecmode</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">vecmode</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_num_strips</span> <span class="o">=</span> <span class="nb">input</span><span class="p">[</span><span class="s1">&#39;max_num_strips&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save_name_data</span> <span class="o">=</span> <span class="nb">input</span><span class="p">[</span><span class="s1">&#39;save_name_data&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pwv_0</span> <span class="o">=</span> <span class="nb">input</span><span class="p">[</span><span class="s1">&#39;pwv_0&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">D1</span> <span class="o">=</span> <span class="nb">input</span><span class="p">[</span><span class="s1">&#39;D1&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span> <span class="o">=</span> <span class="nb">input</span><span class="p">[</span><span class="s1">&#39;n_jobs&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path_model</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save_path</span> <span class="o">=</span> <span class="nb">input</span><span class="p">[</span><span class="s1">&#39;savefolder&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">Path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">save_path</span><span class="p">)</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">save_path</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sourcepath</span> <span class="o">=</span> <span class="nb">input</span><span class="p">[</span><span class="s1">&#39;sourcefolder&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">F_max</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">F_min</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">f_spacing</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_filters</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">F_min</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">F_max</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_filters</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filters</span> <span class="o">=</span> <span class="n">F</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save_P</span> <span class="o">=</span> <span class="nb">input</span><span class="p">[</span><span class="s1">&#39;save_P&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save_T</span> <span class="o">=</span> <span class="nb">input</span><span class="p">[</span><span class="s1">&#39;save_T&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_batches</span> <span class="o">=</span> <span class="nb">input</span><span class="p">[</span><span class="s1">&#39;n_batches&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">separation</span> <span class="o">=</span> <span class="nb">input</span><span class="p">[</span><span class="s1">&#39;separation&#39;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="signal_transmitter.rolldata"><a class="viewcode-back" href="../../_apidoc/tiempo_deshima.signal_transmitter.html#tiempo_deshima.signal_transmitter.signal_transmitter.rolldata">[docs]</a>    <span class="k">def</span> <span class="nf">rolldata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="n">sampdiff</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sampling_rate</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">separation</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">windspeed</span><span class="p">)</span>
+        <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">,:,:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">,:,:],</span> <span class="o">-</span><span class="n">sampdiff</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">,:,:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">,:,:],</span> <span class="n">sampdiff</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,:,</span><span class="n">sampdiff</span><span class="p">:</span><span class="o">-</span><span class="n">sampdiff</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">data</span></div>
+        
+        
+<div class="viewcode-block" id="signal_transmitter.processInput"><a class="viewcode-back" href="../../_apidoc/tiempo_deshima.signal_transmitter.html#tiempo_deshima.signal_transmitter.signal_transmitter.processInput">[docs]</a>    <span class="k">def</span> <span class="nf">processInput</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">aris_instance</span><span class="p">,</span> <span class="n">use_desim_instance</span><span class="p">,</span> <span class="n">time_step</span><span class="p">,</span> <span class="n">count</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function gets the right values of the pwv and then transmits the signal</span>
+<span class="sd">        through Desim (DESHIMA simulator). The psd that is obtained from Desim is</span>
+<span class="sd">        integrated to obtain the power and finally, photon noise is added using</span>
+<span class="sd">        a Gaussian estimation of the Poisson distribution.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        ------------</span>
+<span class="sd">        power_matrix_column: array</span>
+<span class="sd">            Values of the power of the signal for one time sample. This matrix has shape</span>
+<span class="sd">            [5 (number of different pwv values), number of filters]</span>
+<span class="sd">            Unit: W</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pwv_values</span> <span class="o">=</span> <span class="n">aris_instance</span><span class="o">.</span><span class="n">obt_pwv</span><span class="p">(</span><span class="n">time_step</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">windspeed</span><span class="p">)</span>
+        <span class="c1"># pwv_values = np.ones([5, 1]) # to test without atmosphere fluctuations</span>
+        <span class="p">[</span><span class="n">results_desim</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bin_centres</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">psd_bin_centres</span><span class="p">,</span> <span class="n">filters</span><span class="p">]</span> <span class="o">=</span> <span class="n">use_desim_instance</span><span class="o">.</span><span class="n">transmit_through_DESHIMA</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pwv_values</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span>
+        <span class="c1"># Calculate the power from psd_KID</span>
+        <span class="n">first_dif</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bin_centres</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">bin_centres</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">last_dif</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bin_centres</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">bin_centres</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+        <span class="c1"># delta_F = np.concatenate((np.array([0.]), np.logspace(np.log10(first_dif), np.log10(last_dif), self.num_bins-1)))</span>
+        <span class="n">delta_F</span> <span class="o">=</span> <span class="n">first_dif</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">P_bin_centres</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">psd_bin_centres</span> <span class="o">*</span> <span class="n">delta_F</span> <span class="c1">#matrix, power</span>
+        <span class="n">noise_signal</span> <span class="o">=</span> <span class="n">pn</span><span class="o">.</span><span class="n">photon_noise</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">P_bin_centres</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bin_centres</span><span class="p">,</span> <span class="n">delta_F</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampling_rate</span><span class="p">)</span>
+        <span class="n">signal_matrix</span> <span class="o">=</span> <span class="n">noise_signal</span><span class="o">.</span><span class="n">calcTimeSignalBoosted</span><span class="p">(</span><span class="n">atm</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">power_matrix_column</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">signal_matrix</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">del</span> <span class="n">signal_matrix</span><span class="p">,</span> <span class="n">noise_signal</span>
+        <span class="n">gc</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">power_matrix_column</span></div>
+
+<div class="viewcode-block" id="signal_transmitter.transmit_signal_DESIM_multf_atm"><a class="viewcode-back" href="../../_apidoc/tiempo_deshima.signal_transmitter.html#tiempo_deshima.signal_transmitter.signal_transmitter.transmit_signal_DESIM_multf_atm">[docs]</a>    <span class="k">def</span> <span class="nf">transmit_signal_DESIM_multf_atm</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function transmits the signal through the final version of the</span>
+<span class="sd">        DESHIMA model. It starts with calculating the number of samples needed</span>
+<span class="sd">        and making a time vector. Then the atmosphere map from ARIS is loaded in</span>
+<span class="sd">        and filtered. It then loads the galaxy spectrum and converts this to a</span>
+<span class="sd">        psd. Finally, it gives all the needed information to the processInput</span>
+<span class="sd">        function that calculates the signal with parallel computing.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        ------------</span>
+<span class="sd">        time_vector: vector</span>
+<span class="sd">            The times at which the signal needs to be calculated</span>
+<span class="sd">            Unit: s</span>
+<span class="sd">        power_matrix_res: array</span>
+<span class="sd">            Values of the power of the signal. This matrix has shape</span>
+<span class="sd">            [5 (number of different pwv values), number of filters, number of time samples]</span>
+<span class="sd">            Unit: W</span>
+<span class="sd">        T_sky_matrix: array</span>
+<span class="sd">            Values of the sky temperature of the signal. This matrix has shape</span>
+<span class="sd">            [5 (number of different pwv values), number of filters, number of time samples]</span>
+<span class="sd">            Unit: K</span>
+<span class="sd">        self.filters: vector</span>
+<span class="sd">            Center frequencies of the filters in the filterbank in the MKID chip</span>
+<span class="sd">            Unit: Hz</span>
+<span class="sd">        start: float</span>
+<span class="sd">            The moment at which the calculations started, to be able to show the</span>
+<span class="sd">            elapsed time after running the program.</span>
+<span class="sd">            Unit: s</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1">#start_non_parallel = time.time()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_samples</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">sampling_rate</span><span class="p">)</span>
+        <span class="n">time_vector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_samples</span><span class="p">)</span>
+
+        <span class="c1">#Atmosphere</span>
+        <span class="n">aris_instance</span> <span class="o">=</span> <span class="n">use_aris</span><span class="o">.</span><span class="n">use_ARIS</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_length_strip</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sourcepath</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">prefix_atm_data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pwv_0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">windspeed</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_num_strips</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">separation</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">beam_radius</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">tt_instance</span> <span class="o">=</span> <span class="n">tt</span><span class="o">.</span><span class="n">telescope_transmission</span><span class="p">()</span>
+        <span class="n">aris_instance</span><span class="o">.</span><span class="n">filtered_pwv_matrix</span> <span class="o">=</span> <span class="n">tt_instance</span><span class="o">.</span><span class="n">filter_with_Gaussian</span><span class="p">(</span><span class="n">aris_instance</span><span class="o">.</span><span class="n">pwv_matrix</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">beam_radius</span><span class="p">)</span>
+        <span class="c1"># aris_instance = 0 # to test without atmosphere fluctuations</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">eta_atm_df</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">F_highres</span> <span class="o">=</span> <span class="n">dsm</span><span class="o">.</span><span class="n">load_eta_atm</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eta_atm_func_zenith</span> <span class="o">=</span> <span class="n">dsm</span><span class="o">.</span><span class="n">eta_atm_interp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eta_atm_df</span><span class="p">)</span>
+
+        <span class="c1">#Galaxy</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frequency_gal</span><span class="p">,</span> <span class="n">spectrum_gal</span> <span class="o">=</span> <span class="n">galspec</span><span class="o">.</span><span class="n">spectrum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">luminosity</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">redshift</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">F_min</span><span class="o">/</span><span class="mf">1e9</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">F_max</span><span class="o">/</span><span class="mf">1e9</span><span class="o">+</span><span class="mi">10</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_bins</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">linewidth</span><span class="p">,</span> <span class="n">mollines</span> <span class="o">=</span> <span class="s1">&#39;True&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">galaxy_on</span><span class="p">:</span> 
+            <span class="n">Ae</span> <span class="o">=</span> <span class="n">dsm</span><span class="o">.</span><span class="n">calc_eff_aper</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frequency_gal</span><span class="o">*</span><span class="mf">1e9</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">beam_radius</span><span class="p">)</span> <span class="c1">#1e9 added to convert the f to Hz</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">psd_gal</span> <span class="o">=</span> <span class="n">spectrum_gal</span> <span class="o">*</span> <span class="n">Ae</span> <span class="o">*</span> <span class="mf">1e-26</span> <span class="o">*</span> <span class="mf">0.5</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">psd_gal</span> <span class="o">=</span> <span class="mi">0</span>
+        
+        <span class="c1">#DESHIMA</span>
+        <span class="n">use_desim_instance</span> <span class="o">=</span> <span class="n">use_desim</span><span class="o">.</span><span class="n">use_desim</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">vecmode</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_batches</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">step_round</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_samples</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">n_batches</span><span class="p">)</span>
+                <span class="n">inputs</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">l</span> <span class="o">*</span> <span class="n">step_round</span><span class="p">,</span> <span class="p">(</span><span class="n">l</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">step_round</span><span class="p">)</span>
+                <span class="n">power_matrix</span> <span class="o">=</span> <span class="n">Parallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)(</span><span class="n">delayed</span><span class="p">(</span><span class="n">unwrap_processInput_vec</span><span class="p">)(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">aris_instance</span><span class="p">,</span> <span class="n">use_desim_instance</span><span class="p">,</span> <span class="n">time_vector</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">inputs</span><span class="p">)</span>
+                <span class="n">power_matrix_res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">power_matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_filters</span><span class="p">,</span> <span class="n">step_round</span><span class="p">])</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">step_round</span><span class="p">):</span>
+                    <span class="n">power_matrix_res</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">power_matrix</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                    <span class="c1">#T calculation</span>
+                <span class="n">power_matrix_res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rolldata</span><span class="p">(</span><span class="n">power_matrix_res</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_T</span><span class="p">:</span>
+                    <span class="n">T_sky_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">power_matrix_res</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">power_matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">step_round</span><span class="o">-</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sampling_rate</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">separation</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">windspeed</span><span class="p">)):</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">EL</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">EL_vec</span><span class="p">[</span><span class="n">inputs</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+                            <span class="n">T_sky_matrix</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="p">:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_P_to_Tsky</span><span class="p">(</span><span class="n">power_matrix_res</span><span class="p">[</span><span class="n">k</span><span class="p">,:,</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">)</span>
+                    <span class="n">path_T</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_path</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">save_name_data</span> <span class="o">+</span> <span class="s2">&quot;_T_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">l</span><span class="p">))</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">path_T</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">T_sky_matrix</span><span class="p">))</span>
+                    <span class="k">del</span> <span class="n">T_sky_matrix</span>
+                <span class="c1">#save P</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_P</span><span class="p">:</span>
+                    <span class="n">path_P</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_path</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">save_name_data</span> <span class="o">+</span> <span class="s2">&quot;_P_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">l</span><span class="p">))</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">path_P</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">power_matrix_res</span><span class="p">))</span>
+                    <span class="k">del</span> <span class="n">power_matrix</span><span class="p">,</span> <span class="n">power_matrix_res</span>
+                    <span class="n">gc</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_batches</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">step_round</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_samples</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">n_batches</span><span class="p">)</span>
+                <span class="n">inputs</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">l</span> <span class="o">*</span> <span class="n">step_round</span><span class="p">,</span> <span class="p">(</span><span class="n">l</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">step_round</span><span class="p">)</span>
+                <span class="n">power_matrix</span> <span class="o">=</span> <span class="n">Parallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)(</span><span class="n">delayed</span><span class="p">(</span><span class="n">unwrap_processInput</span><span class="p">)(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">aris_instance</span><span class="p">,</span> <span class="n">use_desim_instance</span><span class="p">,</span> <span class="n">time_vector</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">inputs</span><span class="p">)</span>
+                <span class="n">power_matrix_res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">power_matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_filters</span><span class="p">,</span> <span class="n">step_round</span><span class="p">])</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">step_round</span><span class="p">):</span>
+                    <span class="n">power_matrix_res</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">power_matrix</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                <span class="n">power_matrix_res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rolldata</span><span class="p">(</span><span class="n">power_matrix_res</span><span class="p">)</span>
+                <span class="c1">#T calculation</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_T</span><span class="p">:</span>
+                    <span class="n">T_sky_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">power_matrix_res</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">power_matrix_res</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                        <span class="n">T_sky_matrix</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_P_to_Tsky</span><span class="p">(</span><span class="n">power_matrix_res</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">)</span>
+                    <span class="n">path_T</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_path</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">save_name_data</span> <span class="o">+</span> <span class="s2">&quot;_T_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">l</span><span class="p">))</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">path_T</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">T_sky_matrix</span><span class="p">))</span>
+                    <span class="k">del</span> <span class="n">T_sky_matrix</span>
+                <span class="c1">#save P</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_P</span><span class="p">:</span>
+                    <span class="n">path_P</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_path</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">save_name_data</span> <span class="o">+</span> <span class="s2">&quot;_P_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">l</span><span class="p">))</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">path_P</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">power_matrix_res</span><span class="p">))</span>
+                <span class="k">del</span> <span class="n">power_matrix</span><span class="p">,</span> <span class="n">power_matrix_res</span>
+                <span class="n">gc</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+                
+        <span class="k">return</span> <span class="p">[</span><span class="n">time_vector</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="signal_transmitter.convert_P_to_Tsky"><a class="viewcode-back" href="../../_apidoc/tiempo_deshima.signal_transmitter.html#tiempo_deshima.signal_transmitter.signal_transmitter.convert_P_to_Tsky">[docs]</a>    <span class="k">def</span> <span class="nf">convert_P_to_Tsky</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">power_matrix</span><span class="p">,</span> <span class="n">filters</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function converts an array with power values to an array with sky</span>
+<span class="sd">        temperature values, using the saved interpolation function from the</span>
+<span class="sd">        &#39;.Data/splines_Tb_sky/&#39; repository.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        ------------</span>
+<span class="sd">        T_sky_matrix: array</span>
+<span class="sd">            Values of the sky temperature that correspons to the values of the</span>
+<span class="sd">            power that were passed to the function</span>
+<span class="sd">            Unit: K</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">T_sky_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">power_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_filters</span><span class="p">):</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path_model</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">D1</span><span class="p">:</span>
+                <span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;Data/splines_Tb_sky/spline_&#39;</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="si">{0:.1f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filters</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">/</span><span class="mf">1e9</span><span class="p">)</span> <span class="o">+</span><span class="s1">&#39;GHz_D1.npy&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;Data/splines_Tb_sky/spline_&#39;</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="si">{0:.1f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filters</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">/</span><span class="mf">1e9</span><span class="p">)</span> <span class="o">+</span><span class="s1">&#39;GHz.npy&#39;</span>
+            <span class="n">f_load</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="n">filename</span><span class="p">),</span> <span class="n">allow_pickle</span><span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+            <span class="n">f_function</span> <span class="o">=</span> <span class="n">f_load</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">vecmode</span><span class="p">:</span>
+                <span class="n">T_sky_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">f_function</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">EL</span><span class="p">,</span> <span class="n">power_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">power_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+                    <span class="n">T_sky_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">f_function</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">EL</span><span class="p">,</span> <span class="n">power_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">T_sky_matrix</span></div></div>
+</pre></div>
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+
+    
+  <script src="../../_static/js/index.30270b6e4c972e43c488.js"></script>
+
+
+    <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    <p>
+          &copy; Copyright 2018-2020 DESHIMA software team.<br/>
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
